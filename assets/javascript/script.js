@@ -20,6 +20,11 @@ var userZip;
 // ========================================================
 //                   Hannah
 // ========================================================
+jQuery.ajaxPrefilter(function (options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+});
 $("#user-zip-submit").on("click", function () {
     event.preventDefault();
     //declare variables
@@ -29,27 +34,71 @@ $("#user-zip-submit").on("click", function () {
     var category = 13;
     var dateToday = moment().format("YYYY-MM-DD");
 
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip
-        + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
+    var eventNameValue;
+    var descripValue;
+    var attendingValue;
+    var imageValue;
+    var longValue;
+    var latValue;
+
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
         dateToday;
 
+    // var meetupList = [{
+    //     eventName: "",
+    //     descrip: "",
+    //     date: moment("MM/DD/YYYY"),
+    //     attending: "",
+    //     image: [],
+    //     lat: [],
+    //     long: []
+    // }]
+
+    var temp = {};
 
     //request api with ajax
     $.ajax({
-        url: "https://api.meetup.com/find/groups?key=5c377e757526c7c255f6c425f126e3&zip=94043&radius=20&category=13&upcoming_events=true&start_date_range=2018-05-10T12:00:00",
+        url: queryURL,
         method: "GET"
     }).then(function (response) {
         console.log(queryURL);
         console.log(response);
+        //response from api in json form
+        //find fields we need
+        for (var i = 0; i < response.length; i++) {
+            eventNameValue = response[i].next_event.name;
+            descripValue = response[i].description;
+            attendingValue = response[i].next_event.yes_rsvp_count;
+            imageValue = response[i].group_photo.photo_link;
+            longValue = response[i].lon;
+            latValue = response[i].lat;
 
-        var eventName = response.next_event.name;
-        var attending = response.next_event.yes_rsvp_count;
-        console.log(eventName);
-        console.log(attending);
+            console.log(eventNameValue);
+            console.log(attendingValue);
+            console.log(longValue);
+            console.log(latValue);
+            console.log(imageValue);
+
+            //store in object meetupList
+            temp["eventName"] = eventNameValue;
+            temp["descrip"] = descripValue;
+            temp["attending"] = attendingValue;
+            temp["image"] = imageValue;
+            temp["lat"] = latValue;
+            temp["long"] = longValue;
+            console.log(temp)
+
+            //call displayMeetups
+            displayMeetups();
+        }
+
     });
-    //response from api in json form
+    // push to html
+    //create attributes for tag
 
-    //find fields we need
+
+
+
 
 });
 
@@ -57,11 +106,75 @@ $("#user-zip-submit").on("click", function () {
 // ========================================================
 //                   Robert
 // ========================================================
-var meetupList = [{
+
+meetupList = [{
     eventName: "event placeholder",
-    date: "08/02/2018",
+    descrip: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit.",
+    date: moment("08/02/2018", "MM/DD/YYYY"),
     attending: "200",
-    image: "#",
+    image: "http://via.placeholder.com/200x200",
     lat: "109.7",
     long: "-117.1"
+}, {
+    eventName: "event placeholder 2",
+    descrip: "Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper.",
+    date: moment("07/22/2018", "MM/DD/YYYY"),
+    attending: "324",
+    image: "http://via.placeholder.com/200x200",
+    lat: "119.2",
+    long: "-117.4"
+}, {
+    eventName: "event placeholder 3",
+    descrip: "Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. ",
+    date: moment("07/13/2018", "MM/DD/YYYY"),
+    attending: "132",
+    image: "http://via.placeholder.com/200x200",
+    lat: "102.1",
+    long: "-104.7"
 }]
+function displayMeetups() {
+    $("#event-content").empty();
+    for (var i = 0; i < meetupList.length; i++) {
+        var currObj = meetupList[i];
+
+        var eventWrapper = $("<div>");
+        eventWrapper.addClass("mt-3 mr-3");
+
+        var eventCard = $("<div>");
+        eventCard.addClass("card col m-2 position-relative");
+
+        var eventCardHeader = $("<div>");
+        eventCardHeader.addClass("card-header row bg-dark text-light p-2");
+
+        var eventCardHeaderName = $("<h5>");
+        eventCardHeaderName.addClass("col-8");
+        eventCardHeaderName.text(currObj.eventName);
+        var eventCardHeaderDate = $("<h6>");
+        eventCardHeaderDate.addClass("col-4 text-right");
+        eventCardHeaderDate.text(currObj.date.format("MM/DD/YYYY"));
+
+        eventCardHeader.append(eventCardHeaderName);
+        eventCardHeader.append(eventCardHeaderDate);
+        eventCard.append(eventCardHeader);
+
+        var eventCardBody = $("<div>");
+        eventCardBody.addClass("card-body row");
+
+        var eventCardLeft = $("<div>");
+        eventCardLeft.addClass("col-3");
+
+        var eventCardRight = $("<div>");
+        eventCardRight.addClass("col-9");
+        var eventDescrip = $("<p>");
+        eventDescrip.text(currObj.descrip);
+        eventCardRight.append(eventDescrip);
+
+        eventCardBody.append(eventCardLeft);
+        eventCardBody.append(eventCardRight);
+        eventCard.append(eventCardBody);
+
+        eventWrapper.append(eventCard);
+        $("#event-content").append(eventWrapper);
+    }
+}
+displayMeetups();
