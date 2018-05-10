@@ -82,6 +82,11 @@ function displayMeetups () {
         
         var eventCardLeft = $("<div>");
         eventCardLeft.addClass("col-3");
+        var eventCardImage = $("<img>");
+        eventCardImage.attr("src", currObj.image);
+        eventCardImage.attr("alt", currObj.eventName);
+        eventCardImage.addClass("event-card-image");
+        eventCardLeft.append(eventCardImage);
 
         var eventCardRight = $("<div>");
         eventCardRight.addClass("col-9");

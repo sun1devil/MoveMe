@@ -7,3 +7,7 @@
     height: 300px;
     overflow-y: scroll;
 }
+
+.event-card-image {
+    width:100%
+}
