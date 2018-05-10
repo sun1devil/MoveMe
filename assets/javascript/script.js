@@ -19,13 +19,11 @@
 // ========================================================
 //                   Hannah
 // ========================================================
-
+var puppy = "Hannah banana"
 
 
 // ========================================================
 //                   Robert
 // ========================================================
 
-var liar="Robert is the greatest"
-var truth="Robert sucks"
-var reality="Robert is not cool"
+var chicken="RObert is the greatest"
