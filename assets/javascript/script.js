@@ -54,6 +54,7 @@ meetupList = [{
 }]
 function displayMeetups () {
     $("#event-content").empty();
+
     for (var i=0; i<meetupList.length; i++){
         var currObj = meetupList[i];
 
@@ -78,24 +79,18 @@ function displayMeetups () {
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body row");
+        eventCardBody.addClass("card-body");
         
-        var eventCardLeft = $("<div>");
-        eventCardLeft.addClass("col-3");
         var eventCardImage = $("<img>");
         eventCardImage.attr("src", currObj.image);
         eventCardImage.attr("alt", currObj.eventName);
-        eventCardImage.addClass("event-card-image");
-        eventCardLeft.append(eventCardImage);
+        eventCardImage.addClass("event-card-image float-left");
 
-        var eventCardRight = $("<div>");
-        eventCardRight.addClass("col-9");
         var eventDescrip = $("<p>");
         eventDescrip.text(currObj.descrip);
-        eventCardRight.append(eventDescrip);
 
-        eventCardBody.append(eventCardLeft);
-        eventCardBody.append(eventCardRight);
+        eventCardBody.append(eventCardImage);
+        eventCardBody.append(eventDescrip)
         eventCard.append(eventCardBody);
 
         eventWrapper.append(eventCard);
