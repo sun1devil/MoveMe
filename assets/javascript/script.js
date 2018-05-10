@@ -36,7 +36,7 @@ $("#user-zip-submit").on("click", function(event)
     {
         var userZip = childSnapshot.val().zip;
         console.log(childSnapshot.val());
-        If (userZip)
+        // If (userZip)
     })
 
 
