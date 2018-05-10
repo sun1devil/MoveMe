@@ -26,4 +26,5 @@
 //                   Robert
 // ========================================================
 
-var reality="RObert is the greatest"
+var liar="Robert is the greatest"
+var truth="Robert sucks"
