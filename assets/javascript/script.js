@@ -1,7 +1,7 @@
 // ========================================================
 //                   Global Variables
 // ========================================================
-var meetupList; 
+var meetupList;
 var userZip;
 
 
@@ -12,35 +12,33 @@ var userZip;
 var database = firebase.database();
 
 //on click search capture zipcode count each//
-$("#user-zip-submit").on("click", function(event) 
-{
+$("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
-    
+
     var userZip = $("#user-zip").val().trim();
     var countZip = 0;
     var zipCodes =
-    {
-       userZip : 0
-    };
+        {
+            userZip: 0
+        };
 
     $("#user-zip").val("");
     database.ref().push(userZip);
     database.ref().push(zipCodes)
     console.log(userZip);
     console.log(zipCodes)
-    
-    
-        
+
+
+
 })
-    database.ref().on("child_added", function(childSnapshot, prevChildKey)
-    {
-        var userZip = childSnapshot.val().zip;
-        console.log(childSnapshot.val());
-        // If (userZip)
-    })
+database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+    var userZip = childSnapshot.val().zip;
+    console.log(childSnapshot.val());
+    // If (userZip)
+})
 
 
- 
+
 
 // ========================================================
 //                   Mindy
@@ -51,7 +49,92 @@ $("#user-zip-submit").on("click", function(event)
 // ========================================================
 //                   Hannah
 // ========================================================
+jQuery.ajaxPrefilter(function (options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+});
+$("#user-zip-submit").on("click", function () {
+    event.preventDefault();
+    //declare variables
+    userZip = $("#user-zip").val().trim();
+    var apiKey = "5c377e757526c7c255f6c425f126e3";
+    var radius = 20;
+    var category = 13;
+    var dateToday = moment().format("YYYY-MM-DD");
 
+    var eventNameValue;
+    var descripValue;
+    var attendingValue;
+    var imageValue;
+    var longValue;
+    var latValue;
+
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
+        dateToday;
+
+
+
+    //request api with ajax
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(queryURL);
+        console.log(response);
+
+        meetupList = [];
+        //response from api in json form
+        //find fields we need
+        for (var i = 0; i < response.length; i++) {
+            console.log("forLoop: " + i)
+            console.log(response[i]);
+            var temp = {};
+
+            if (response[i].next_event) {
+
+                eventNameValue = response[i].next_event.name;
+                descripValue = response[i].description;
+                attendingValue = response[i].next_event.yes_rsvp_count;
+
+                if (response[i].group_photo) {
+                    imageValue = response[i].group_photo.photo_link;
+                };
+
+                longValue = response[i].lon;
+                latValue = response[i].lat;
+
+                console.log(eventNameValue);
+                console.log(attendingValue);
+                console.log(longValue);
+                console.log(latValue);
+                // console.log(imageValue);
+
+                //store in object meetupList
+                temp["eventName"] = eventNameValue;
+                temp["descrip"] = descripValue;
+                temp["attending"] = attendingValue;
+                temp["image"] = imageValue;
+                temp["lat"] = latValue;
+                temp["long"] = longValue;
+                console.log(temp)
+
+                //push object to array
+                meetupList.push(temp);
+            }
+
+        }
+        console.log("meetupList")
+        console.log(meetupList)
+    });
+    // push to html
+    //create attributes for tag
+
+
+
+
+
+});
 
 
 // ========================================================
@@ -83,14 +166,14 @@ meetupList = [{
     lat: "102.1",
     long: "-104.7"
 }]
-function displayMeetups () {
+function displayMeetups() {
     $("#event-content").empty();
-    for (var i=0; i<meetupList.length; i++){
+    for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
         var eventWrapper = $("<div>");
         eventWrapper.addClass("mt-3 mr-3");
-        
+
         var eventCard = $("<div>");
         eventCard.addClass("card col m-2 position-relative");
 
@@ -110,7 +193,7 @@ function displayMeetups () {
 
         var eventCardBody = $("<div>");
         eventCardBody.addClass("card-body row");
-        
+
         var eventCardLeft = $("<div>");
         eventCardLeft.addClass("col-3");
 
