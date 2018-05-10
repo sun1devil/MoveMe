@@ -12,35 +12,33 @@ var userZip;
 var database = firebase.database();
 
 //on click search capture zipcode count each//
-$("#user-zip-submit").on("click", function(event) 
-{
+$("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
-    
+
     var userZip = $("#user-zip").val().trim();
     var countZip = 0;
     var zipCodes =
-    {
-       userZip : 0
-    };
+        {
+            userZip: 0
+        };
 
     $("#user-zip").val("");
     database.ref().push(userZip);
     database.ref().push(zipCodes)
     console.log(userZip);
     console.log(zipCodes)
-    
-    
-        
+
+
+
 })
-    database.ref().on("child_added", function(childSnapshot, prevChildKey)
-    {
-        var userZip = childSnapshot.val().zip;
-        console.log(childSnapshot.val());
-        // If (userZip)
-    })
+database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+    var userZip = childSnapshot.val().zip;
+    console.log(childSnapshot.val());
+    // If (userZip)
+})
 
 
- 
+
 
 // ========================================================
 //                   Mindy
@@ -74,8 +72,8 @@ $("#user-zip-submit").on("click", function () {
 
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
         dateToday;
-        
-    var temp = {};
+
+
 
     //request api with ajax
     $.ajax({
@@ -84,35 +82,50 @@ $("#user-zip-submit").on("click", function () {
     }).then(function (response) {
         console.log(queryURL);
         console.log(response);
+
+        meetupList = [];
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            eventNameValue = response[i].next_event.name;
-            descripValue = response[i].description;
-            attendingValue = response[i].next_event.yes_rsvp_count;
-            imageValue = response[i].group_photo.photo_link;
-            longValue = response[i].lon;
-            latValue = response[i].lat;
+            console.log("forLoop: " + i)
+            console.log(response[i]);
+            var temp = {};
 
-            console.log(eventNameValue);
-            console.log(attendingValue);
-            console.log(longValue);
-            console.log(latValue);
-            console.log(imageValue);
+            if (response[i].next_event) {
 
-            //store in object meetupList
-            temp["eventName"] = eventNameValue;
-            temp["descrip"] = descripValue;
-            temp["attending"] = attendingValue;
-            temp["image"] = imageValue;
-            temp["lat"] = latValue;
-            temp["long"] = longValue;
-            console.log(temp)
+                eventNameValue = response[i].next_event.name;
+                descripValue = response[i].description;
+                attendingValue = response[i].next_event.yes_rsvp_count;
 
-            //call displayMeetups
-            displayMeetups();
+                if (response[i].group_photo) {
+                    imageValue = response[i].group_photo.photo_link;
+                };
+
+                longValue = response[i].lon;
+                latValue = response[i].lat;
+
+                console.log(eventNameValue);
+                console.log(attendingValue);
+                console.log(longValue);
+                console.log(latValue);
+                // console.log(imageValue);
+
+                //store in object meetupList
+                temp["eventName"] = eventNameValue;
+                temp["descrip"] = descripValue;
+                temp["attending"] = attendingValue;
+                temp["image"] = imageValue;
+                temp["lat"] = latValue;
+                temp["long"] = longValue;
+                console.log(temp)
+
+                //push object to array
+                meetupList.push(temp);
+            }
+
         }
-
+        console.log("meetupList")
+        console.log(meetupList)
     });
     // push to html
     //create attributes for tag
