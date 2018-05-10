@@ -1,0 +1,9 @@
+#event-content {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+#chat-display {
+    height: 300px;
+    overflow-y: scroll;
+}

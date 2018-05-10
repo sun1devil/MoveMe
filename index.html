@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+
+    <!-- Fonts -->
+
+    
+    <!-- My CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <title>MoveMe</title>
+</head>
+
+<body>
+
+    <header class="container-fluid">
+        <div class="row">
+            <div class="jumbotron col bg-dark text-light text-center p-4">
+                <h1 class="display-4">MoveMe</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class = "container">
+        <div class ="row">
+            <div class="col"></div>
+            <form class="input-group col-6">
+                <input class="form-control" id="user-zip" type=text>
+                <div class="input-group-append">
+                    <button class="btn input-group-text" id="user-zip-submit" type="submit">MoveMe</button>
+                </div>
+            </form>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <main class="container-fluid" id="moveme-body">
+        <div class="row mt-5">
+            <div class="col-0 col-md-0 col-lg-1"></div>
+            <div class="col-12 col-md-8 col-lg-6" id="event-display">
+                <div class="card">
+                    <h3 class="card-header">Event Display</h3>
+                    <p class="card-text" id="event-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper. Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. Suspendisse sollicitudin consectetur est commodo congue. In fermentum vitae orci eu efficitur. Aliquam egestas quis erat vitae aliquet.Aenean sed consequat leo. Pellentesque id nisi facilisis, tincidunt tortor ac, ornare tortor. Nunc faucibus aliquam tellus at luctus. Aenean volutpat sed lacus ut laoreet. In non commodo diam. Donec interdum arcu odio, et rutrum urna scelerisque pharetra. Ut vel dignissim odio, rutrum facilisis quam. Maecenas pretium sed purus ac laoreet. Nullam sit amet rhoncus enim. Vestibulum ut arcu leo. Pellentesque tincidunt felis et nulla gravida mollis. Nunc fermentum eros erat. Morbi dictum risus nec dui semper, ac lobortis est varius. Maecenas auctor mauris diam, in laoreet turpis ornare a.
+
+                            Duis feugiat, turpis et lacinia viverra, leo nisl ullamcorper purus, sit amet porttitor elit ipsum et ex. Maecenas sollicitudin in tortor molestie laoreet. Phasellus ac lorem nec mi auctor aliquet ut id turpis. Sed et fringilla sem. Morbi id vehicula arcu. In semper magna nec mattis lobortis. Nullam luctus ultricies metus efficitur viverra. Donec eros sapien, fringilla sit amet leo a, suscipit elementum lacus. Vestibulum facilisis pulvinar lacus, sit amet viverra ante aliquet quis.
+                            
+                            Aliquam in aliquet ante. Cras quis leo enim. Donec quis leo nulla. Curabitur nec egestas purus. Maecenas quis libero neque. Mauris vel ante vel mauris suscipit condimentum. Suspendisse quis venenatis nisl, vel auctor ligula. In vitae nibh fermentum nulla sodales congue.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4" id="map-display">
+                    <div class="card">
+                        <h3 class="card-header">Map Display</h3>
+                        <p class="card-text">Suspendisse mi diam, convallis vitae libero vitae, aliquet semper lectus. Ut vulputate diam nunc, vel dapibus magna volutpat id. Maecenas id felis in quam mollis venenatis nec ac lectus. Vivamus mi justo, pharetra non risus non, semper consequat quam. Nulla quis enim ac orci consectetur laoreet ut sit amet augue. Praesent quis facilisis nulla, scelerisque posuere urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam volutpat eros nisi. Integer hendrerit sit amet nisi ut tristique. Fusce dolor nibh, porttitor dignissim fringilla eleifend, rutrum id mauris.</p>
+                    </div>
+            </div>
+            <div class="col-0 col-md-0 col-lg-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-0 col-lg-1"></div>
+            <div class="col-12 col-lg-10">
+                <div class="card mt-5" id="chat-card">
+                    <div class="card-header bg-dark text-light text-center p-2"><h4>MoveMe Chat</h4></div>
+                    <div class="card-text" id="chat-display">sdfgsfgsdfg</div>
+                    <form class="input-group hidden" id="chat-box">
+                        <input class="form-control" id="chat-input" type=text>
+                        <div class="input-group-append">
+                            <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-submit" type="submit">Chat</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-0 col-lg-1"></div>
+        </div>
+
+        <div class="row mt-5"></div>
+    </main>
+        
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCC151gwffFRSuTPcOtBMH_xNLowZgtoSM",
+            authDomain: "moveme-2503c.firebaseapp.com",
+            databaseURL: "https://moveme-2503c.firebaseio.com",
+            projectId: "moveme-2503c",
+            storageBucket: "",
+            messagingSenderId: "864334635848"
+        };
+        firebase.initializeApp(config);
+        </script>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- My Javascript -->
+    <script src="assets/javascript/script.js"></script>
+</body>
+
+</html>
