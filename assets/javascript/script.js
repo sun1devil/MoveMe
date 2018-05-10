@@ -1,7 +1,7 @@
 // ========================================================
 //                   Global Variables
 // ========================================================
-var meetupList; 
+var meetupList;
 var userZip;
 
 
@@ -51,7 +51,77 @@ $("#user-zip-submit").on("click", function(event)
 // ========================================================
 //                   Hannah
 // ========================================================
+jQuery.ajaxPrefilter(function (options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+});
+$("#user-zip-submit").on("click", function () {
+    event.preventDefault();
+    //declare variables
+    userZip = $("#user-zip").val().trim();
+    var apiKey = "5c377e757526c7c255f6c425f126e3";
+    var radius = 20;
+    var category = 13;
+    var dateToday = moment().format("YYYY-MM-DD");
 
+    var eventNameValue;
+    var descripValue;
+    var attendingValue;
+    var imageValue;
+    var longValue;
+    var latValue;
+
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
+        dateToday;
+        
+    var temp = {};
+
+    //request api with ajax
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(queryURL);
+        console.log(response);
+        //response from api in json form
+        //find fields we need
+        for (var i = 0; i < response.length; i++) {
+            eventNameValue = response[i].next_event.name;
+            descripValue = response[i].description;
+            attendingValue = response[i].next_event.yes_rsvp_count;
+            imageValue = response[i].group_photo.photo_link;
+            longValue = response[i].lon;
+            latValue = response[i].lat;
+
+            console.log(eventNameValue);
+            console.log(attendingValue);
+            console.log(longValue);
+            console.log(latValue);
+            console.log(imageValue);
+
+            //store in object meetupList
+            temp["eventName"] = eventNameValue;
+            temp["descrip"] = descripValue;
+            temp["attending"] = attendingValue;
+            temp["image"] = imageValue;
+            temp["lat"] = latValue;
+            temp["long"] = longValue;
+            console.log(temp)
+
+            //call displayMeetups
+            displayMeetups();
+        }
+
+    });
+    // push to html
+    //create attributes for tag
+
+
+
+
+
+});
 
 
 // ========================================================
@@ -83,14 +153,14 @@ meetupList = [{
     lat: "102.1",
     long: "-104.7"
 }]
-function displayMeetups () {
+function displayMeetups() {
     $("#event-content").empty();
-    for (var i=0; i<meetupList.length; i++){
+    for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
         var eventWrapper = $("<div>");
         eventWrapper.addClass("mt-3 mr-3");
-        
+
         var eventCard = $("<div>");
         eventCard.addClass("card col m-2 position-relative");
 
@@ -110,7 +180,7 @@ function displayMeetups () {
 
         var eventCardBody = $("<div>");
         eventCardBody.addClass("card-body row");
-        
+
         var eventCardLeft = $("<div>");
         eventCardLeft.addClass("col-3");
 
