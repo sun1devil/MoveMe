@@ -17,19 +17,25 @@ $("#user-zip-submit").on("click", function(event)
     
     var userZip = $("#user-zip").val().trim();
     var countZip = 0;
+    var zipCodes =
+    {
+       userZip : 0
+    };
+
     $("#user-zip").val("");
     database.ref().push(userZip);
+    database.ref().push(zipCodes)
     console.log(userZip);
-    countZip++;
-    console.log(countZip);
+    console.log(zipCodes)
     
     
+        
 })
     database.ref().on("child_added", function(childSnapshot, prevChildKey)
     {
         var userZip = childSnapshot.val().zip;
-        // var 
         console.log(childSnapshot.val());
+        If (userZip)
     })
 
 
