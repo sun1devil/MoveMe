@@ -26,4 +26,4 @@
 //                   Robert
 // ========================================================
 
-
+var reality="RObert is the greatest"
