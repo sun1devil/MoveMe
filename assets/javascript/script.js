@@ -74,17 +74,7 @@ $("#user-zip-submit").on("click", function () {
 
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
         dateToday;
-
-    // var meetupList = [{
-    //     eventName: "",
-    //     descrip: "",
-    //     date: moment("MM/DD/YYYY"),
-    //     attending: "",
-    //     image: [],
-    //     lat: [],
-    //     long: []
-    // }]
-
+        
     var temp = {};
 
     //request api with ajax
