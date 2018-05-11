@@ -11,3 +11,14 @@
 .event-card-image {
     width:200px;
 }
+
+.chat-pin-toggle {
+    height:75px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.hidden {
+    display:none;
+}
