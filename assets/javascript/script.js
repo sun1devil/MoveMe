@@ -35,7 +35,7 @@ $("#user-zip-submit").on("click", function (event) {
     database.ref("/zip").on("value", function(snap)
     {
         var zipObject = snap.val();
-        console.log(snap.val());
+        // console.log(snap.val());
         $("#zip-count").text(zipObject[userZip])
         
         
