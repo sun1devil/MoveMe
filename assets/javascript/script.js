@@ -156,33 +156,8 @@ $("#user-zip-submit").on("click", function () {
 
 
 // ========================================================
-//                   Robert
+//                   Meetup Display (Dynamic)
 // ========================================================
-
-// meetupList = [{
-//     eventName: "event placeholder",
-//     descrip: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit.",
-//     date: moment("08/02/2018", "MM/DD/YYYY"),
-//     attending: "200",
-//     image: "http://via.placeholder.com/200x200",
-//     lat: "109.7",
-//     long: "-117.1"
-// }, {
-//     eventName: "event placeholder 2",
-//     descrip: "Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper.",
-//     date: moment("07/22/2018", "MM/DD/YYYY"),
-//     attending: "324",
-//     image: "http://via.placeholder.com/200x200",
-//     lat: "119.2",
-//     long: "-117.4"
-// }, {
-//     eventName: "event placeholder 3",
-//     descrip: "Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. ",
-//     date: moment("07/13/2018", "MM/DD/YYYY"),
-//     attending: "132",
-//     lat: "102.1",
-//     long: "-104.7"
-// }]
 
 function displayMeetups() {
     $("#event-content").empty();
@@ -233,7 +208,11 @@ function displayMeetups() {
         eventAttendees.text(currObj.attending + " other people are attending.")
 
         var moveMePin = $("<img>");
-        moveMePin.attr("src", "assets/images/");
+        moveMePin.attr("src", "assets/images/MoveMePin.png");
+        moveMePin.attr("alt", "Map Pin Toggle");
+        moveMePin.addClass("chat-pin-toggle");
+        moveMePin.attr("data-lat", currObj.lat);
+        moveMePin.attr("data-long", currObj.long);
 
         if (currObj.image){
         eventCardBody.append(eventCardImage);
@@ -241,6 +220,7 @@ function displayMeetups() {
         eventCardBody.append(eventTime);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
+        eventCardBody.append(moveMePin);
         eventCard.append(eventCardBody);
 
         eventWrapper.append(eventCard);
