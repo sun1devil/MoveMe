@@ -274,11 +274,11 @@ $(document).on("click", "#chat-name-submit", function(event){
     $("#chat-box").removeClass("hidden");
 })
 
-// $(document).on("click", "#chat-submit", function(event){
-//     event.preventDefault();
-//     var chat = userID + ": " + $("#chat-input").val().trim();
-//     $("#chat-input").val("");
-//     if (currPlaying) {
-//         database.ref("/chat").push(chat);
-//     }
-// });
+$(document).on("click", "#chat-submit", function(event){
+    event.preventDefault();
+    var chat = userName + ": " + $("#chat-input").val().trim();
+    $("#chat-input").val("");
+    if (currPlaying) {
+        database.ref("/chat").push(chat);
+    }
+});
