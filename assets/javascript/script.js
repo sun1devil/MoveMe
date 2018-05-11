@@ -15,7 +15,7 @@ var zipObject ={};
 $("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
 
-    var userZip = $("#user-zip").val().trim();
+    userZip = $("#user-zip").val().trim();
     var countZip = 0;
     if(zipObject.hasOwnProperty(userZip)){
         zipObject[userZip]++;
@@ -36,8 +36,12 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
+        $("#zip-count").text(zipObject[userZip])
+        
+        
         
     })
+
 
 
 
