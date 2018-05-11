@@ -82,15 +82,15 @@ $("#user-zip-submit").on("click", function () {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL);
-        console.log(response);
+        // console.log(queryURL);
+        // console.log(response);
 
         meetupList = [];
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            console.log("forLoop: " + i)
-            console.log(response[i]);
+            // console.log("forLoop: " + i)
+            // console.log(response[i]);
             var temp = {};
 
             if (response[i].next_event) {
@@ -109,11 +109,11 @@ $("#user-zip-submit").on("click", function () {
                 longValue = response[i].lon;
                 latValue = response[i].lat;
 
-                console.log(eventNameValue);
-                console.log(attendingValue);
-                console.log(longValue);
-                console.log(latValue);
-                console.log(formattedDate);
+                // console.log(eventNameValue);
+                // console.log(attendingValue);
+                // console.log(longValue);
+                // console.log(latValue);
+                // console.log(formattedDate);
 
                 // console.log(imageValue);
 
@@ -125,15 +125,15 @@ $("#user-zip-submit").on("click", function () {
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
                 temp["eventDate"] = formattedDate;
-                console.log(temp)
+                // console.log(temp)
 
                 //push object to array
                 meetupList.push(temp);
             }
 
         }
-        console.log("meetupList")
-        console.log(meetupList)
+        // console.log("meetupList")
+        // console.log(meetupList)
     });
     // push to html
     //create attributes for tag
