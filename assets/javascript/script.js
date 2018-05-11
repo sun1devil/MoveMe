@@ -68,7 +68,9 @@ function initMap(latitude, longitude) {
 }
 var mapResults = initMap(37.773972, -122.431297)
 $("#google-map").push(mapResults)
-console.log(mapResults)
+// console.log(mapResults)
+
+
 
 // ========================================================
 //                   Hannah
