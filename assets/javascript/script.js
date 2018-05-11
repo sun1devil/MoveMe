@@ -66,7 +66,8 @@ $("#user-zip-submit").on("click", function () {
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
-    var dateToday = moment().format("YYYY-MM-DD");
+    var dateToday;
+    var finalDateTime;
 
     var eventNameValue;
     var descripValue;
@@ -74,26 +75,27 @@ $("#user-zip-submit").on("click", function () {
     var imageValue;
     var longValue;
     var latValue;
+    var eventDate;
 
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
-        dateToday;
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
-
+        // var date = new Date(1526086800000);
+        // console.log(date.toString(date));
 
     //request api with ajax
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL);
-        console.log(response);
+        // console.log(queryURL);
+        // console.log(response);
 
         meetupList = [];
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            console.log("forLoop: " + i)
-            console.log(response[i]);
+            // console.log("forLoop: " + i)
+            // console.log(response[i]);
             var temp = {};
 
             if (response[i].next_event) {
@@ -101,6 +103,12 @@ $("#user-zip-submit").on("click", function () {
                 eventNameValue = response[i].next_event.name;
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
+                eventDate = response[i].next_event.time;
+                var rawDate = new Date(eventDate);
+                formattedDate = rawDate.toString(rawDate);
+                finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                // console.log(finalDateTime.format("MM/DD/YYYY HH:mm"));
+                
 
                 if (response[i].group_photo) {
                     imageValue = response[i].group_photo.photo_link;
@@ -109,10 +117,13 @@ $("#user-zip-submit").on("click", function () {
                 longValue = response[i].lon;
                 latValue = response[i].lat;
 
-                console.log(eventNameValue);
-                console.log(attendingValue);
-                console.log(longValue);
-                console.log(latValue);
+                // console.log(eventNameValue);
+                // console.log(attendingValue);
+                // console.log(longValue);
+                // console.log(latValue);
+                // console.log(formattedDate);
+                // console.log(finalDateTime);
+
                 // console.log(imageValue);
 
                 //store in object meetupList
@@ -122,15 +133,17 @@ $("#user-zip-submit").on("click", function () {
                 temp["image"] = imageValue;
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
-                console.log(temp)
+                temp["eventDate"] = finalDateTime;
+                // console.log(temp)
 
                 //push object to array
                 meetupList.push(temp);
             }
 
         }
-        console.log("meetupList")
-        console.log(meetupList)
+        // console.log("meetupList")
+        // console.log(meetupList)
+        displayMeetups();
     });
     // push to html
     //create attributes for tag
@@ -146,33 +159,36 @@ $("#user-zip-submit").on("click", function () {
 //                   Robert
 // ========================================================
 
-meetupList = [{
-    eventName: "event placeholder",
-    descrip: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit.",
-    date: moment("08/02/2018", "MM/DD/YYYY"),
-    attending: "200",
-    image: "http://via.placeholder.com/200x200",
-    lat: "109.7",
-    long: "-117.1"
-}, {
-    eventName: "event placeholder 2",
-    descrip: "Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper.",
-    date: moment("07/22/2018", "MM/DD/YYYY"),
-    attending: "324",
-    image: "http://via.placeholder.com/200x200",
-    lat: "119.2",
-    long: "-117.4"
-}, {
-    eventName: "event placeholder 3",
-    descrip: "Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. ",
-    date: moment("07/13/2018", "MM/DD/YYYY"),
-    attending: "132",
-    image: "http://via.placeholder.com/200x200",
-    lat: "102.1",
-    long: "-104.7"
-}]
+// meetupList = [{
+//     eventName: "event placeholder",
+//     descrip: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit.",
+//     date: moment("08/02/2018", "MM/DD/YYYY"),
+//     attending: "200",
+//     image: "http://via.placeholder.com/200x200",
+//     lat: "109.7",
+//     long: "-117.1"
+// }, {
+//     eventName: "event placeholder 2",
+//     descrip: "Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper.",
+//     date: moment("07/22/2018", "MM/DD/YYYY"),
+//     attending: "324",
+//     image: "http://via.placeholder.com/200x200",
+//     lat: "119.2",
+//     long: "-117.4"
+// }, {
+//     eventName: "event placeholder 3",
+//     descrip: "Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. ",
+//     date: moment("07/13/2018", "MM/DD/YYYY"),
+//     attending: "132",
+//     lat: "102.1",
+//     long: "-104.7"
+// }]
+$("#event-content").empty();
 function displayMeetups() {
     $("#event-content").empty();
+    if (!meetupList){
+        return;
+    }
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
@@ -190,30 +206,45 @@ function displayMeetups() {
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
         eventCardHeaderDate.addClass("col-4 text-right");
-        eventCardHeaderDate.text(currObj.date.format("MM/DD/YYYY"));
+        eventCardHeaderDate.text(moment(currObj.date).format("MM/DD/YYYY"));
 
         eventCardHeader.append(eventCardHeaderName);
         eventCardHeader.append(eventCardHeaderDate);
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body row");
+        eventCardBody.addClass("card-body p-0");
+        
+        if (currObj.image){
+            var eventCardImage = $("<img>");
+            eventCardImage.attr("src", currObj.image);
+            eventCardImage.attr("alt", currObj.eventName);
+            eventCardImage.addClass("event-card-image float-left m-0 mt-2 mr-2 mb-2");
+        }
 
-        var eventCardLeft = $("<div>");
-        eventCardLeft.addClass("col-3");
+        var eventTime = $("<h6>");
+        eventTime.addClass("text-right")
+        eventTime.text(moment(currObj.date).format("HH:mm MM/DD/YYYY"));
 
-        var eventCardRight = $("<div>");
-        eventCardRight.addClass("col-9");
         var eventDescrip = $("<p>");
-        eventDescrip.text(currObj.descrip);
-        eventCardRight.append(eventDescrip);
+        eventDescrip.html(currObj.descrip);
 
-        eventCardBody.append(eventCardLeft);
-        eventCardBody.append(eventCardRight);
+        var eventAttendees = $("<p>");
+        eventAttendees.text(currObj.attending + " other people are attending.")
+
+        if (currObj.image){
+        eventCardBody.append(eventCardImage);
+        }
+        eventCardBody.append(eventTime);
+        eventCardBody.append(eventDescrip);
+        eventCardBody.append(eventAttendees);
         eventCard.append(eventCardBody);
 
         eventWrapper.append(eventCard);
         $("#event-content").append(eventWrapper);
     }
 }
-displayMeetups();
+
+
+
+
