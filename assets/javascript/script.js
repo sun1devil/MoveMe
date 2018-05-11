@@ -62,7 +62,8 @@ $("#user-zip-submit").on("click", function () {
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
-    var dateToday = moment().format("YYYY-MM-DD");
+    var dateToday;
+    var finalDateTime;
 
     var eventNameValue;
     var descripValue;
@@ -70,26 +71,27 @@ $("#user-zip-submit").on("click", function () {
     var imageValue;
     var longValue;
     var latValue;
+    var eventDate;
 
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
-        dateToday;
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
-
+        // var date = new Date(1526086800000);
+        // console.log(date.toString(date));
 
     //request api with ajax
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(queryURL);
-        console.log(response);
+        // console.log(queryURL);
+        // console.log(response);
 
         meetupList = [];
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            console.log("forLoop: " + i)
-            console.log(response[i]);
+            // console.log("forLoop: " + i)
+            // console.log(response[i]);
             var temp = {};
 
             if (response[i].next_event) {
@@ -97,6 +99,12 @@ $("#user-zip-submit").on("click", function () {
                 eventNameValue = response[i].next_event.name;
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
+                eventDate = response[i].next_event.time;
+                var rawDate = new Date(eventDate);
+                formattedDate = rawDate.toString(rawDate);
+                finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                // console.log(finalDateTime.format("MM/DD/YYYY HH:mm"));
+                
 
                 if (response[i].group_photo) {
                     imageValue = response[i].group_photo.photo_link;
@@ -105,10 +113,13 @@ $("#user-zip-submit").on("click", function () {
                 longValue = response[i].lon;
                 latValue = response[i].lat;
 
-                console.log(eventNameValue);
-                console.log(attendingValue);
-                console.log(longValue);
-                console.log(latValue);
+                // console.log(eventNameValue);
+                // console.log(attendingValue);
+                // console.log(longValue);
+                // console.log(latValue);
+                // console.log(formattedDate);
+                // console.log(finalDateTime);
+
                 // console.log(imageValue);
 
                 //store in object meetupList
@@ -118,15 +129,16 @@ $("#user-zip-submit").on("click", function () {
                 temp["image"] = imageValue;
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
-                console.log(temp)
+                temp["eventDate"] = finalDateTime;
+                // console.log(temp)
 
                 //push object to array
                 meetupList.push(temp);
             }
 
         }
-        console.log("meetupList")
-        console.log(meetupList)
+        // console.log("meetupList")
+        // console.log(meetupList)
     });
     // push to html
     //create attributes for tag
@@ -223,3 +235,6 @@ function displayMeetups() {
     }
 }
 displayMeetups();
+
+
+
