@@ -139,6 +139,7 @@ $("#user-zip-submit").on("click", function () {
         }
         // console.log("meetupList")
         // console.log(meetupList)
+        displayMeetups();
     });
     // push to html
     //create attributes for tag
@@ -180,6 +181,10 @@ meetupList = [{
 }]
 function displayMeetups() {
     $("#event-content").empty();
+    console.log(meetupList)
+    if (!meetupList){
+        return;
+    }
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
@@ -197,27 +202,28 @@ function displayMeetups() {
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
         eventCardHeaderDate.addClass("col-4 text-right");
-        eventCardHeaderDate.text(currObj.date.format("MM/DD/YYYY"));
+        eventCardHeaderDate.text(moment(currObj.date).format("MM/DD/YYYY"));
 
         eventCardHeader.append(eventCardHeaderName);
         eventCardHeader.append(eventCardHeaderDate);
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body");
+        eventCardBody.addClass("card-body p-0");
         
         if (currObj.image){
             var eventCardImage = $("<img>");
             eventCardImage.attr("src", currObj.image);
             eventCardImage.attr("alt", currObj.eventName);
-            eventCardImage.addClass("event-card-image float-left");
+            eventCardImage.addClass("event-card-image float-left m-0 mt-2 mr-2 mb-2");
         }
 
         var eventTime = $("<h6>");
-        eventTime.text(currObj.date.format("HH:mm MM/DD/YYYY"));
+        eventTime.addClass("text-right")
+        eventTime.text(moment(currObj.date).format("HH:mm MM/DD/YYYY"));
 
         var eventDescrip = $("<p>");
-        eventDescrip.text(currObj.descrip);
+        eventDescrip.html(currObj.descrip);
 
         var eventAttendees = $("<p>");
         eventAttendees.text(currObj.attending + " other people are attending.")
@@ -234,7 +240,7 @@ function displayMeetups() {
         $("#event-content").append(eventWrapper);
     }
 }
-displayMeetups();
+
 
 
 
