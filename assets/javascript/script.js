@@ -174,7 +174,7 @@ function displayMeetups() {
         var currObj = meetupList[i];
 
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-3 mr-3");
+        eventWrapper.addClass("mt-4 mr-3");
 
         var eventCard = $("<div>");
         eventCard.addClass("card col m-2 position-relative");
@@ -249,6 +249,7 @@ $(document).on("click", "#chat-header", function(event) {
         $("#chat-display").toggleClass("hidden");
         $("#chat-box").toggleClass("hidden");
     }
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
 $(document).on("click", "#chat-name-submit", function(event){
@@ -258,13 +259,28 @@ $(document).on("click", "#chat-name-submit", function(event){
     $("#chat-name").addClass("hidden");
     $("#chat-display").removeClass("hidden");
     $("#chat-box").removeClass("hidden");
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
 $(document).on("click", "#chat-submit", function(event){
     event.preventDefault();
-    var chat = userName + ": " + $("#chat-input").val().trim();
+    var chatItem = userName + ":  " + $("#chat-input").val().trim();
     $("#chat-input").val("");
-    if (currPlaying) {
-        database.ref("/chat").push(chat);
-    }
+    database.ref("/chat").push(chatItem);
 });
+
+database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
+    $("#chat-display").append($("<p>").text(childSnapshot.val()));
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
+})
+
+database.ref("/chat").on("value", function (snapshot){
+    if (snapshot.val()){
+        var maxChatStorage = 50;
+        var chatObj = snapshot.val();
+        var tempKeys = Object.keys(snapshot.val());
+        for (var i=maxChatStorage; i<tempKeys.length; i++) {
+            database.ref("/chat").child(tempKeys[i-maxChatStorage]).remove();
+        }
+    }
+})
