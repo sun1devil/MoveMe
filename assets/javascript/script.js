@@ -10,7 +10,7 @@ var userZip;
 // ========================================================
 
 var database = firebase.database();
-
+var zipObject ={};
 //on click search capture zipcode count each//
 $("#user-zip-submit").on("click", function(event) 
 {
@@ -18,25 +18,26 @@ $("#user-zip-submit").on("click", function(event)
     
     var userZip = $("#user-zip").val().trim();
     var countZip = 0;
-    var zipCodes =
-    {
-       userZip : 0
-    };
-
-    $("#user-zip").val("");
-    database.ref().push(userZip);
-    database.ref().push(zipCodes)
-    console.log(userZip);
-    console.log(zipCodes)
-    
-    
+    if(zipObject.hasOwnProperty(userZip)){
+        zipObject[userZip]++;
+        // console.log(zipObject[userZip]);
+    }
+    else{
+        zipObject[userZip]=1
+    }
         
-})
-    database.ref().on("child_added", function(childSnapshot, prevChildKey)
+    // console.log(zipObject)
+    $("#user-zip").val("");
+    
+    // database.ref("/zip").push(userZip);
+    database.ref("/zip").update(zipObject)
+    // console.log(userZip);
+    })
+    database.ref("/zip").on("value", function(snap)
     {
-        var userZip = childSnapshot.val().zip;
-        console.log(childSnapshot.val());
-        // If (userZip)
+        var zipObject = snap.val();
+        // console.log(snap.val());
+        
     })
 
 
