@@ -63,6 +63,7 @@ $("#user-zip-submit").on("click", function () {
     var radius = 20;
     var category = 13;
     var dateToday;
+    var finalDateTime;
 
     var eventNameValue;
     var descripValue;
@@ -101,6 +102,9 @@ $("#user-zip-submit").on("click", function () {
                 eventDate = response[i].next_event.time;
                 var rawDate = new Date(eventDate);
                 formattedDate = rawDate.toString(rawDate);
+                finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                // console.log(finalDateTime.format("MM/DD/YYYY HH:mm"));
+                
 
                 if (response[i].group_photo) {
                     imageValue = response[i].group_photo.photo_link;
@@ -114,6 +118,7 @@ $("#user-zip-submit").on("click", function () {
                 // console.log(longValue);
                 // console.log(latValue);
                 // console.log(formattedDate);
+                // console.log(finalDateTime);
 
                 // console.log(imageValue);
 
@@ -124,7 +129,7 @@ $("#user-zip-submit").on("click", function () {
                 temp["image"] = imageValue;
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
-                temp["eventDate"] = formattedDate;
+                temp["eventDate"] = finalDateTime;
                 // console.log(temp)
 
                 //push object to array
