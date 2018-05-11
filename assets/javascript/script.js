@@ -28,7 +28,6 @@ $("#user-zip-submit").on("click", function (event) {
         }
             
         // console.log(zipObject)
-        $("#user-zip").val("");
         
         // database.ref("/zip").push(userZip);
         database.ref("/zip").update(zipObject)
@@ -66,11 +65,34 @@ function initMap(latitude, longitude) {
     map: map
   });
 }
+<<<<<<< HEAD
 var mapResults = initMap(37.773972, -122.431297)
 $("#google-map").push(mapResults)
 // console.log(mapResults)
 
 
+=======
+
+// var mapResults = initMap(37.773972, -122.431297);
+// $("#google-map").push(mapResults);
+// console.log(mapResults)
+
+// This will give you the latitude and longitude of the event associated with the
+// pin the user clicked on
+$(document).on("click", ".chat-pin-toggle", function (event){
+    var currLat = $(this).data("lat");
+    var currLong = $(this).data("long");
+    alert("lat: " + currLat + " long: " + currLong)
+
+
+
+
+// YOUR CODE HERE
+
+
+
+})
+>>>>>>> d5fa6a48ed4db0f8ff966d57be5c1d6d1b3074ab
 
 // ========================================================
 //                   Hannah
@@ -84,6 +106,7 @@ $("#user-zip-submit").on("click", function () {
     event.preventDefault();
     //declare variables
     userZip = $("#user-zip").val().trim();
+    $("#user-zip").val("");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
@@ -188,8 +211,9 @@ function displayMeetups() {
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
+
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-3 mr-3");
+        eventWrapper.addClass("mt-4 mr-3");
 
         var eventCard = $("<div>");
         eventCard.addClass("card col m-2 position-relative");
@@ -264,22 +288,39 @@ $(document).on("click", "#chat-header", function(event) {
         $("#chat-display").toggleClass("hidden");
         $("#chat-box").toggleClass("hidden");
     }
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
     $("#chat-name-input").val("")
+    
     $("#chat-name").addClass("hidden");
     $("#chat-display").removeClass("hidden");
     $("#chat-box").removeClass("hidden");
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
-// $(document).on("click", "#chat-submit", function(event){
-//     event.preventDefault();
-//     var chat = userID + ": " + $("#chat-input").val().trim();
-//     $("#chat-input").val("");
-//     if (currPlaying) {
-//         database.ref("/chat").push(chat);
-//     }
-// });
+$(document).on("click", "#chat-submit", function(event){
+    event.preventDefault();
+    var chatItem = userName + ":  " + $("#chat-input").val().trim();
+    $("#chat-input").val("");
+    database.ref("/chat").push(chatItem);
+});
+
+database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
+    $("#chat-display").append($("<p>").text(childSnapshot.val()));
+    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
+})
+
+database.ref("/chat").on("value", function (snapshot){
+    if (snapshot.val()){
+        var maxChatStorage = 50;
+        var chatObj = snapshot.val();
+        var tempKeys = Object.keys(snapshot.val());
+        for (var i=maxChatStorage; i<tempKeys.length; i++) {
+            database.ref("/chat").child(tempKeys[i-maxChatStorage]).remove();
+        }
+    }
+})
