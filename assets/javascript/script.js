@@ -28,7 +28,6 @@ $("#user-zip-submit").on("click", function (event) {
         }
             
         // console.log(zipObject)
-        $("#user-zip").val("");
         
         // database.ref("/zip").push(userZip);
         database.ref("/zip").update(zipObject)
@@ -71,6 +70,22 @@ function initMap(latitude, longitude) {
 // $("#google-map").push(mapResults);
 // console.log(mapResults)
 
+// This will give you the latitude and longitude of the event associated with the
+// pin the user clicked on
+$(document).on("click", ".chat-pin-toggle", function (event){
+    var currLat = $(this).data("lat");
+    var currLong = $(this).data("long");
+    alert("lat: " + currLat + " long: " + currLong)
+
+
+
+
+// YOUR CODE HERE
+
+
+
+})
+
 // ========================================================
 //                   Hannah
 // ========================================================
@@ -83,6 +98,7 @@ $("#user-zip-submit").on("click", function () {
     event.preventDefault();
     //declare variables
     userZip = $("#user-zip").val().trim();
+    $("#user-zip").val("");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
@@ -271,6 +287,7 @@ $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
     $("#chat-name-input").val("")
+    
     $("#chat-name").addClass("hidden");
     $("#chat-display").removeClass("hidden");
     $("#chat-box").removeClass("hidden");
