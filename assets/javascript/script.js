@@ -61,7 +61,7 @@ $("#user-zip-submit").on("click", function () {
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
-    var dateToday = moment().format("YYYY-MM-DD");
+    var dateToday;
 
     var eventNameValue;
     var descripValue;
@@ -69,11 +69,12 @@ $("#user-zip-submit").on("click", function () {
     var imageValue;
     var longValue;
     var latValue;
+    var eventDate;
 
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" +
-        dateToday;
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
-
+        // var date = new Date(1526086800000);
+        // console.log(date.toString(date));
 
     //request api with ajax
     $.ajax({
@@ -96,6 +97,9 @@ $("#user-zip-submit").on("click", function () {
                 eventNameValue = response[i].next_event.name;
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
+                eventDate = response[i].next_event.time;
+                var rawDate = new Date(eventDate);
+                formattedDate = rawDate.toString(rawDate);
 
                 if (response[i].group_photo) {
                     imageValue = response[i].group_photo.photo_link;
@@ -108,6 +112,8 @@ $("#user-zip-submit").on("click", function () {
                 console.log(attendingValue);
                 console.log(longValue);
                 console.log(latValue);
+                console.log(formattedDate);
+
                 // console.log(imageValue);
 
                 //store in object meetupList
@@ -117,6 +123,7 @@ $("#user-zip-submit").on("click", function () {
                 temp["image"] = imageValue;
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
+                temp["eventDate"] = formattedDate;
                 console.log(temp)
 
                 //push object to array
@@ -212,3 +219,6 @@ function displayMeetups() {
     }
 }
 displayMeetups();
+
+
+
