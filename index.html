@@ -12,11 +12,17 @@
 
     <!-- Fonts -->
 
-    
+
     <!-- My CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>MoveMe</title>
+    <style>
+        #google-map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,10 +61,12 @@
                 </div>
             </div>
             <div class="col-12 col-md-4 col-lg-4" id="map-display">
-                    <div class="card">
-                        <h3 class="card-header">Map Display</h3>
-                        <p class="card-text">Suspendisse mi diam, convallis vitae libero vitae, aliquet semper lectus. Ut vulputate diam nunc, vel dapibus magna volutpat id. Maecenas id felis in quam mollis venenatis nec ac lectus. Vivamus mi justo, pharetra non risus non, semper consequat quam. Nulla quis enim ac orci consectetur laoreet ut sit amet augue. Praesent quis facilisis nulla, scelerisque posuere urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam volutpat eros nisi. Integer hendrerit sit amet nisi ut tristique. Fusce dolor nibh, porttitor dignissim fringilla eleifend, rutrum id mauris.</p>
-                    </div>
+                <div class="card">
+                    <h3 class="card-header">Map Display</h3>
+                    <div id="google-map"></div>
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNdGUu1zOd1rU5mHt9sTmLJqBZSD8jOfw&callback=initMap">
+                    </script>
+                </div>
             </div>
             <div class="col-0 col-md-0 col-lg-1"></div>
         </div>
@@ -91,7 +99,7 @@
 
         <div class="row mt-5"></div>
     </main>
-        
+
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
@@ -106,7 +114,7 @@
             messagingSenderId: "864334635848"
         };
         firebase.initializeApp(config);
-        </script>
+    </script>
 
     <!-- Bootstrap -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

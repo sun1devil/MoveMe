@@ -55,7 +55,20 @@ $("#user-zip-submit").on("click", function (event) {
 //                   Mindy
 // ========================================================
 
-
+function initMap(latitude, longitude) {
+  var meetUpLoc = {lat: latitude, lng: longitude };
+  var map = new google.maps.Map(document.getElementById('google-map'), {
+    zoom: 4,
+    center: meetUpLoc
+  });
+  var marker = new google.maps.Marker({
+    position: meetUpLoc,
+    map: map
+  });
+}
+var mapResults = initMap(37.773972, -122.431297)
+$("#google-map").push(mapResults)
+console.log(mapResults)
 
 // ========================================================
 //                   Hannah
