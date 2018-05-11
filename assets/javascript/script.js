@@ -233,7 +233,13 @@ function displayMeetups() {
         eventAttendees.text(currObj.attending + " other people are attending.")
 
         var moveMePin = $("<img>");
-        moveMePin.attr("src", "assets/images/");
+        moveMePin.attr("src", "assets/images/MoveMePin.png");
+        moveMePin.attr("alt", "Map Pin Toggle");
+        moveMePin.addClass("chat-pin-toggle");
+        console.log(currObj.lat);
+        console.log(currObj.long)
+        moveMePin.attr("data-lat", currObj.lat);
+        moveMePin.attr("data-long", currObj.long);
 
         if (currObj.image){
         eventCardBody.append(eventCardImage);
@@ -241,6 +247,7 @@ function displayMeetups() {
         eventCardBody.append(eventTime);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
+        eventCardBody.append(moveMePin);
         eventCard.append(eventCardBody);
 
         eventWrapper.append(eventCard);
