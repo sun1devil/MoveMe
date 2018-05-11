@@ -66,9 +66,10 @@ function initMap(latitude, longitude) {
     map: map
   });
 }
-var mapResults = initMap(37.773972, -122.431297)
-$("#google-map").push(mapResults)
-console.log(mapResults)
+
+// var mapResults = initMap(37.773972, -122.431297);
+// $("#google-map").push(mapResults);
+// console.log(mapResults)
 
 // ========================================================
 //                   Hannah
@@ -186,6 +187,7 @@ function displayMeetups() {
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
+
         var eventWrapper = $("<div>");
         eventWrapper.addClass("mt-4 mr-3");
 
@@ -275,7 +277,6 @@ $(document).on("click", "#chat-name-submit", function(event){
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
-<<<<<<< HEAD
 $(document).on("click", "#chat-submit", function(event){
     event.preventDefault();
     var chatItem = userName + ":  " + $("#chat-input").val().trim();
@@ -298,13 +299,3 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
-=======
-// $(document).on("click", "#chat-submit", function(event){
-//     event.preventDefault();
-//     var chat = userID + ": " + $("#chat-input").val().trim();
-//     $("#chat-input").val("");
-//     if (currPlaying) {
-//         database.ref("/chat").push(chat);
-//     }
-// });
->>>>>>> ba70cc1089f707a8a8620d05e2b7a45889056ff6
