@@ -30,7 +30,9 @@
     </header>
 
     <div class = "container">
-        <div class="row" id="zip-count"></div>
+        <div class="row">
+            <h4 class="col text-center"><span id="zip-count"></span></h4>
+        </div>
         <div class ="row">
             <div class="col"></div>
             <form class="input-group col-6">
@@ -49,11 +51,7 @@
             <div class="col-12 col-md-8 col-lg-6" id="event-display">
                 <div class="card">
                     <h3 class="card-header">Event Display</h3>
-                    <p class="card-text" id="event-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus dolor vitae lacus suscipit mattis. Donec sed sem tempus, viverra neque non, consectetur sem. Donec lacinia mauris eget maximus blandit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus id gravida orci. Mauris at tincidunt mauris. Nam ultricies libero velit, eu vulputate est sodales ut. Fusce eu magna eget purus malesuada ullamcorper. Quisque luctus eros sit amet mollis porta. Phasellus ut massa sed diam faucibus ultrices quis non est. Duis viverra sagittis ligula, at malesuada arcu venenatis vel. Sed pulvinar interdum nibh, a condimentum augue pretium nec. Suspendisse sollicitudin consectetur est commodo congue. In fermentum vitae orci eu efficitur. Aliquam egestas quis erat vitae aliquet.Aenean sed consequat leo. Pellentesque id nisi facilisis, tincidunt tortor ac, ornare tortor. Nunc faucibus aliquam tellus at luctus. Aenean volutpat sed lacus ut laoreet. In non commodo diam. Donec interdum arcu odio, et rutrum urna scelerisque pharetra. Ut vel dignissim odio, rutrum facilisis quam. Maecenas pretium sed purus ac laoreet. Nullam sit amet rhoncus enim. Vestibulum ut arcu leo. Pellentesque tincidunt felis et nulla gravida mollis. Nunc fermentum eros erat. Morbi dictum risus nec dui semper, ac lobortis est varius. Maecenas auctor mauris diam, in laoreet turpis ornare a.
-
-                            Duis feugiat, turpis et lacinia viverra, leo nisl ullamcorper purus, sit amet porttitor elit ipsum et ex. Maecenas sollicitudin in tortor molestie laoreet. Phasellus ac lorem nec mi auctor aliquet ut id turpis. Sed et fringilla sem. Morbi id vehicula arcu. In semper magna nec mattis lobortis. Nullam luctus ultricies metus efficitur viverra. Donec eros sapien, fringilla sit amet leo a, suscipit elementum lacus. Vestibulum facilisis pulvinar lacus, sit amet viverra ante aliquet quis.
-                            
-                            Aliquam in aliquet ante. Cras quis leo enim. Donec quis leo nulla. Curabitur nec egestas purus. Maecenas quis libero neque. Mauris vel ante vel mauris suscipit condimentum. Suspendisse quis venenatis nisl, vel auctor ligula. In vitae nibh fermentum nulla sodales congue.</p>
+                    <p class="card-text" id="event-content"></p>
                 </div>
             </div>
             <div class="col-12 col-md-4 col-lg-4" id="map-display">
@@ -69,8 +67,17 @@
             <div class="col-0 col-lg-1"></div>
             <div class="col-12 col-lg-10">
                 <div class="card mt-5" id="chat-card">
-                    <div class="card-header bg-dark text-light text-center p-2"><h4>MoveMe Chat</h4></div>
-                    <div class="card-text" id="chat-display">sdfgsfgsdfg</div>
+                    <div class="card-header bg-dark text-light text-center p-2" id="chat-header"><h4>MoveMe Chat</h4></div>
+                    <div class="card-text m-5 hidden" id="chat-name">
+                        <h3 class="text-center">Welcome to the MoveMe chat! Please select a user name.</h3>
+                        <form class="input-group mt-5" id="chat-name-box">
+                            <input class="form-control" id="chat-name-input" type=text>
+                            <div class="input-group-append">
+                                <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-name-submit" type="submit">Chat</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-text hidden" id="chat-display"></div>
                     <form class="input-group hidden" id="chat-box">
                         <input class="form-control" id="chat-input" type=text>
                         <div class="input-group-append">

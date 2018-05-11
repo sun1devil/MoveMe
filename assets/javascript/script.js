@@ -2,7 +2,7 @@
 //                   Global Variables
 // ========================================================
 var meetupList;
-var userZip;
+var userZip, userName;
 
 
 // ========================================================
@@ -183,7 +183,7 @@ $("#user-zip-submit").on("click", function () {
 //     lat: "102.1",
 //     long: "-104.7"
 // }]
-$("#event-content").empty();
+
 function displayMeetups() {
     $("#event-content").empty();
     if (!meetupList){
@@ -232,6 +232,9 @@ function displayMeetups() {
         var eventAttendees = $("<p>");
         eventAttendees.text(currObj.attending + " other people are attending.")
 
+        var moveMePin = $("<img>");
+        moveMePin.attr("src", "assets/images/");
+
         if (currObj.image){
         eventCardBody.append(eventCardImage);
         }
@@ -246,5 +249,36 @@ function displayMeetups() {
 }
 
 
+// ========================================================
+//                   MoveMe Chat
+// ========================================================
 
+var database = firebase.database();
 
+$(document).on("click", "#chat-header", function(event) {
+    if (!userName){
+        $("#chat-name").toggleClass("hidden");
+    } else {
+        $("#chat-name").addClass("hidden");
+        $("#chat-display").toggleClass("hidden");
+        $("#chat-box").toggleClass("hidden");
+    }
+})
+
+$(document).on("click", "#chat-name-submit", function(event){
+    event.preventDefault();
+    userName = $("#chat-name-input").val().trim();
+    $("#chat-name-input").val("")
+    $("#chat-name").addClass("hidden");
+    $("#chat-display").removeClass("hidden");
+    $("#chat-box").removeClass("hidden");
+})
+
+// $(document).on("click", "#chat-submit", function(event){
+//     event.preventDefault();
+//     var chat = userID + ": " + $("#chat-input").val().trim();
+//     $("#chat-input").val("");
+//     if (currPlaying) {
+//         database.ref("/chat").push(chat);
+//     }
+// });

@@ -11,3 +11,7 @@
 .event-card-image {
     width:200px;
 }
+
+.hidden {
+    display:none;
+}
