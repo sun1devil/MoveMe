@@ -228,6 +228,9 @@ function displayMeetups() {
         var eventAttendees = $("<p>");
         eventAttendees.text(currObj.attending + " other people are attending.")
 
+        var moveMePin = $("<img>");
+        // moveMePin.attr("src", "assets/images/");
+
         if (currObj.image){
         eventCardBody.append(eventCardImage);
         }
