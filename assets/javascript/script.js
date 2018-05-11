@@ -55,7 +55,20 @@ $("#user-zip-submit").on("click", function (event) {
 //                   Mindy
 // ========================================================
 
-
+function initMap(latitude, longitude) {
+  var meetUpLoc = {lat: latitude, lng: longitude };
+  var map = new google.maps.Map(document.getElementById('google-map'), {
+    zoom: 4,
+    center: meetUpLoc
+  });
+  var marker = new google.maps.Marker({
+    position: meetUpLoc,
+    map: map
+  });
+}
+var mapResults = initMap(37.773972, -122.431297)
+$("#google-map").push(mapResults)
+console.log(mapResults)
 
 // ========================================================
 //                   Hannah
@@ -262,6 +275,7 @@ $(document).on("click", "#chat-name-submit", function(event){
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
+<<<<<<< HEAD
 $(document).on("click", "#chat-submit", function(event){
     event.preventDefault();
     var chatItem = userName + ":  " + $("#chat-input").val().trim();
@@ -284,3 +298,13 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
+=======
+// $(document).on("click", "#chat-submit", function(event){
+//     event.preventDefault();
+//     var chat = userID + ": " + $("#chat-input").val().trim();
+//     $("#chat-input").val("");
+//     if (currPlaying) {
+//         database.ref("/chat").push(chat);
+//     }
+// });
+>>>>>>> ba70cc1089f707a8a8620d05e2b7a45889056ff6
