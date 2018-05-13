@@ -341,13 +341,13 @@ $(document).on("click", "#chat-submit", function(event){
     chatItem.color = userColor;
     chatItem.time = time;
     chatItem.message = $("#chat-input").val().trim();
-    console.log(chatItem)
+
     $("#chat-input").val("");
     database.ref("/chat").push(chatItem);
 });
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
-    console.log(childSnapshot.val())
+
     var chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY")
     var chatTime = moment(chatDate.format("MM/DD/YY"), "MM/DD/YY");
     var chatTimeColor;
