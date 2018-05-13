@@ -102,7 +102,7 @@ $("#user-zip-submit").on("click", function () {
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 20;
     var category = 13;
-    var dateToday;
+    var dateToday = moment().format("YYYY-MM-DD");
     var finalDateTime;
 
     var eventNameValue;
@@ -123,7 +123,7 @@ $("#user-zip-submit").on("click", function () {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        // console.log(queryURL);
+        console.log(queryURL);
         // console.log(response);
 
         meetupList = [];
@@ -183,13 +183,20 @@ $("#user-zip-submit").on("click", function () {
     });
     // push to html
     //create attributes for tag
-
-
-
-
-
 });
 
+var newsDateFrom = moment().format("YYYY-MM-DD");
+var newsKeyword = "";
+var newsApiKey = "5f03fe0753814e19a56fa636ba696c89"
+var qSearch = "dogs";
+console.log(eventNameValue)
+var newsURL = "https://newsapi.org/v2/everything?q=" + newsKeyword + "&from=" + newsDateFrom + "&apiKey=" + newsApiKey;
+
+var req = new Request(newsURL);
+fetch(req)
+    .then(function(response) {
+        console.log(response)
+    });
 
 // ========================================================
 //                   Meetup Display (Dynamic)
