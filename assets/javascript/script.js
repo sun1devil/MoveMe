@@ -49,8 +49,8 @@ $("#user-zip-submit").on("click", function (event) {
 
 ///Weather API Variables, Need to determine if we want weather at Zip entered or at event long lat.
  var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/37.8267,-122.4233,1526162017?/exclude=currently,flags,minutely,alerts"
-    var longValue
-    var latvalue
+    // var longValue
+    // var latvalue
     //  var weatherLoc= 37.8267, -122.4233;
     // var weatherUrl ="https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/" + weatherLoc "/" + rawDate converted to unix
     //date = May 14 2008 from variable declared in event Ajax call named rawDate 1526349600000
