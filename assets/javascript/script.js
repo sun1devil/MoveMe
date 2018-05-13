@@ -307,9 +307,6 @@ $(document).on("click", "#chat-header", function(event) {
     $("html, body").scrollTop($(document).height());
 })
 
-function newUserColor(name) {
-
-}
 
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
