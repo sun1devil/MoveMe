@@ -271,6 +271,11 @@ function displayMeetups() {
 // ========================================================
 
 var database = firebase.database();
+var userColor;
+
+function randInt(x) {
+    return Math.floor(Math.random() * x);
+}
 
 $(document).on("click", "#chat-header", function(event) {
     if (!userName){
@@ -281,17 +286,29 @@ $(document).on("click", "#chat-header", function(event) {
         $("#chat-box").toggleClass("hidden");
     }
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
+    $("html, body").scrollTop($(document).height());
 })
 
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
     $("#chat-name-input").val("")
-    
-    $("#chat-name").addClass("hidden");
-    $("#chat-display").removeClass("hidden");
-    $("#chat-box").removeClass("hidden");
-    $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
+    if (userName) {
+        $("#chat-name").addClass("hidden");
+        $("#chat-display").removeClass("hidden");
+        $("#chat-box").removeClass("hidden");
+        $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
+        $("html, body").scrollTop($(document).height());
+        database.ref("/chatUsers").once("value", function(snap){
+            userColor = snap.val()[userName];
+            if (!userColor) {
+                userColor = "rgb(" + randInt(100) + ", " + randInt(30) + ", " + randInt(100) + ");";
+                var userObject = {};
+                userObject[userName] = userColor;
+                database.ref("/chatUsers").update(userObject);
+            }
+        })
+    }
 })
 
 $(document).on("click", "#chat-submit", function(event){
