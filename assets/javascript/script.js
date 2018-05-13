@@ -346,13 +346,14 @@ $(document).on("click", "#chat-submit", function(event){
 });
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
-    var chatDate = moment(moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("MM/DD/YY"), "MM/DD/YY");
-    if (parseInt(moment().diff(chatDate, "days")) !== 0) {
-        chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("MMM Do");
+    var chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY")
+    var chatTime = moment(chatDate.format("MM/DD/YY"), "MM/DD/YY");
+    if (parseInt(moment().diff(chatTime, "days")) !== 0) {
+        chatTime = chatDate.format("MMM Do");
     } else {
-        chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("h:mm a");
+        chatTime = chatDate.format("h:mm a");
     }
-    
+    var chatItem = $("<p>");
     $("#chat-display").append($("<p>").text(childSnapshot.val().message));
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
