@@ -353,18 +353,21 @@ database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
     var chatTimeColor;
     if (parseInt(moment().diff(chatTime, "days")) !== 0) {
         chatTime = chatDate.format("MMM Do");
-        chatTimeColor = "font-style: italic; color: rgba(150, 150, 150, 1) !important;";
+        chatTimeColor = "font-style: italic; color: rgba(150, 150, 150, 1)";
     } else {
         chatTime = chatDate.format("h:mm a");
     }
     var chatItem = $("<p>");
     var chatTimeDisplay = $("<span>");
+    chatTimeDisplay.addClass("chat-time-display")
     chatTimeDisplay.attr("style", chatTimeColor);
     chatTimeDisplay.text("(" + chatTime + ") ")
     var chatNameDisplay = $("<span>");
-    chatNameDisplay.attr("style", "color: " + childSnapshot.val().color + " !important; font-weight: bold");
+    chatNameDisplay.addClass("chat-name-display")
+    chatNameDisplay.attr("style", "color: " + childSnapshot.val().color + "; font-weight: bold");
     chatNameDisplay.text(childSnapshot.val().name);
     var chatMessageDisplay = $("<span>");
+    chatMessageDisplay.addClass("chat-message-display")
     chatMessageDisplay.attr("style", chatTimeColor);
     chatMessageDisplay.text(childSnapshot.val().message);
 
