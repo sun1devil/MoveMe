@@ -327,7 +327,7 @@ $(document).on("click", "#chat-name-submit", function(event){
                 userColor = "rgba(" + (50+ tempRand) + ", " + randInt(100) + ", " + (250-tempRand) + ", 1);";
                 var userObject = {};
                 userObject[userName] = userColor;
-                database.ref("/chatUsers").set(userObject);
+                database.ref("/chatUsers").update(userObject);
             }
         })
     }
@@ -353,7 +353,7 @@ database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
     var chatTimeColor;
     if (parseInt(moment().diff(chatTime, "days")) !== 0) {
         chatTime = chatDate.format("MMM Do");
-        chatTimeColor = "color: rgba(150, 150, 150, 1) !important;";
+        chatTimeColor = "font-style: italic; color: rgba(150, 150, 150, 1) !important;";
     } else {
         chatTime = chatDate.format("h:mm a");
     }
