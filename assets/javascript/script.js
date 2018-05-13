@@ -305,6 +305,10 @@ $(document).on("click", "#chat-header", function(event) {
     $("html, body").scrollTop($(document).height());
 })
 
+function newUserColor(name) {
+
+}
+
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
@@ -316,13 +320,15 @@ $(document).on("click", "#chat-name-submit", function(event){
         $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
         $("html, body").scrollTop($(document).height());
         database.ref("/chatUsers").once("value", function(snap){
-            userColor = snap.val()[userName];
-            if (!userColor) {
+            if (snap.hasChild(userName)) {
+                userColor = snap.val()[userName];
+            } else {
                 userColor = "rgb(" + randInt(100) + ", " + randInt(30) + ", " + randInt(100) + ");";
                 var userObject = {};
                 userObject[userName] = userColor;
-                database.ref("/chatUsers").update(userObject);
+                database.ref("/chatUsers").set(userObject);
             }
+            
         })
     }
 })
