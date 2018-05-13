@@ -17,12 +17,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>MoveMe</title>
-    <style>
-        #google-map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
 </head>
 
 <body>
@@ -53,22 +47,21 @@
 
     <main class="container-fluid" id="moveme-body">
         <div class="row mt-5">
-            <div class="col-0 col-md-0 col-lg-1"></div>
-            <div class="col-12 col-md-8 col-lg-6" id="event-display">
+
+            <div class="col-12 col-md-7 col-lg-8" id="event-display">
                 <div class="card">
                     <h3 class="card-header">Event Display</h3>
                     <p class="card-text" id="event-content"></p>
                 </div>
             </div>
-            <div class="col-12 col-md-4 col-lg-4" id="map-display">
+            <div class="col-12 col-md-5 col-lg-4" id="map-display">
                 <div class="card">
-                    <h3 class="card-header">Map Display</h3>
                     <div id="google-map"></div>
                     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNdGUu1zOd1rU5mHt9sTmLJqBZSD8jOfw&callback=initMap">
                     </script>
                 </div>
             </div>
-            <div class="col-0 col-md-0 col-lg-1"></div>
+
         </div>
 
         <div class="row">
@@ -76,12 +69,12 @@
             <div class="col-12 col-lg-10">
                 <div class="card mt-5" id="chat-card">
                     <div class="card-header bg-dark text-light text-center p-2" id="chat-header"><h4>MoveMe Chat</h4></div>
-                    <div class="card-text m-5 hidden" id="chat-name">
+                    <div class="card-text m-5" id="chat-name">
                         <h3 class="text-center">Welcome to the MoveMe chat! Please select a user name.</h3>
                         <form class="input-group mt-5" id="chat-name-box">
                             <input class="form-control" id="chat-name-input" type=text>
                             <div class="input-group-append">
-                                <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-name-submit" type="submit">Chat</button>
+                                <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-name-submit" type="submit">Login</button>
                             </div>
                         </form>
                     </div>
