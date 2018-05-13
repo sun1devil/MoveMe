@@ -328,20 +328,32 @@ $(document).on("click", "#chat-name-submit", function(event){
                 userObject[userName] = userColor;
                 database.ref("/chatUsers").set(userObject);
             }
-            
         })
     }
 })
 
 $(document).on("click", "#chat-submit", function(event){
     event.preventDefault();
-    var chatItem = userName + ":  " + $("#chat-input").val().trim();
+    var chatItem = {};
+    var time = moment().format("HH:mm MM/DD/YY")
+    chatItem.name = userName;
+    chatItem.color = userColor;
+    chatItem.time = time;
+    chatItem.message = $("#chat-input").val().trim();
+    console.log(chatItem)
     $("#chat-input").val("");
     database.ref("/chat").push(chatItem);
 });
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
-    $("#chat-display").append($("<p>").text(childSnapshot.val()));
+    var chatDate = moment(moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("MM/DD/YY"), "MM/DD/YY");
+    if (parseInt(moment().diff(chatDate, "days")) !== 0) {
+        chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("MMM Do");
+    } else {
+        chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY").format("h:mm a");
+    }
+    
+    $("#chat-display").append($("<p>").text(childSnapshot.val().message));
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
