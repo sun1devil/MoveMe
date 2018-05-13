@@ -23,20 +23,26 @@
 
     <header class="container-fluid" id="page-header">
         <div class="row">
-            <h1 class="col text-dark text-center">MoveMe</h1>
-        </div>
-        <div class="row">
-            <h4 class="col text-center"><span id="zip-count">Hello!</span></h4>
-        </div>
-        <div class ="row mb-3">
-            <div class="col"></div>
-            <form class="input-group col-6">
-                <input class="form-control" id="user-zip" type=text placeholder="Enter zipcode">
-                <div class="input-group-append">
-                    <button class="btn input-group-text" id="user-zip-submit" type="submit">MoveMe</button>
+            <div class="col-0 col-md-1 col-lg-2"></div>
+            <div class="col position-relative">
+                <img src="assets/images/MoveMeLogo.jpg" alt="MoveMe Logo" id="moveme-logo">
+            </div>
+            <h1 class="col text-dark text-center">MoveMe
+                <div class="row">
+                    <h4 class="col text-center"><span id="zip-count">Hello!</span></h4>
                 </div>
-            </form>
-            <div class="col"></div>
+                <div class ="row mb-3">
+                    <div class="col"></div>
+                    <form class="input-group col-6">
+                        <input class="form-control" id="user-zip" type=text placeholder="Enter zipcode">
+                        <div class="input-group-append">
+                            <button class="btn input-group-text" id="user-zip-submit" type="submit">MoveMe</button>
+                        </div>
+                    </form>
+                    <div class="col"></div>
+                </div>
+            </h1>
+            <div class="col-0 col-md-1 col-lg-2"></div>
         </div>
     </header>
 
@@ -66,12 +72,16 @@
                     <div class="card-header text-light text-center p-2" id="chat-header"><h4>MoveMe Chat</h4></div>
                     <div class="card-text m-5" id="chat-name">
                         <h3 class="text-center">Welcome to the MoveMe chat! Please select a user name.</h3>
-                        <form class="input-group mt-5" id="chat-name-box">
-                            <input class="form-control" id="chat-name-input" type=text>
-                            <div class="input-group-append">
-                                <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-name-submit" type="submit">Login</button>
-                            </div>
-                        </form>
+                        <div class="row">
+                            <div class="col-sm-0 col-lg"></div>
+                            <form class="col input-group mt-5" id="chat-name-box">
+                                <input class="form-control" id="chat-name-input" type=text>
+                                <div class="input-group-append">
+                                    <button class="btn btn-dark input-group-text p-2 pl-3 pr-3" id="chat-name-submit" type="submit">Login</button>
+                                </div>
+                            </form>
+                            <div class="col-sm-0 col-lg"></div>
+                        </div>
                     </div>
                     <div class="card-text hidden" id="chat-display"></div>
                     <form class="input-group hidden" id="chat-box">

@@ -14,20 +14,25 @@
 }
 
 #chat-name-box {
-    width: 300px;
+    width: 250px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .event-card-image {
     width:200px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    border: outset;
+    border-color: #ccc;
+    border-width: 3px;
 }
 
 .chat-pin-toggle {
     height:75px;
     position: absolute;
-    bottom: 10px;
-    right: 35px;
+    bottom: 0px;
+    right: 17px;
 }
 
 body{
@@ -70,4 +75,8 @@ body{
 
 #moveme-body {
     background-color: rgba(200, 200, 200, .9);
+}
+
+#moveme-logo {
+    height: 200px;
 }
