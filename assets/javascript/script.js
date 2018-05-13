@@ -195,6 +195,8 @@ $("#user-zip-submit").on("click", function () {
 //                   Meetup Display (Dynamic)
 // ========================================================
 
+var activeEvent;
+
 function displayMeetups() {
     $("#event-content").empty();
     if (!meetupList){
