@@ -43,7 +43,11 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
-        $("#zip-count").text(zipObject[userZip])
+        if (zipObject.hasOwnProperty(userZip)){
+            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
+        } else {
+            $("#zip-count").text("Come join us!")
+        }
         
         
         
