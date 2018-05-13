@@ -186,12 +186,12 @@ $("#user-zip-submit").on("click", function () {
 });
 
 var newsDateFrom = moment().format("YYYY-MM-DD");
-var newsKeyword = "";
+var newsKeyword = "#";
 var newsApiKey = "5f03fe0753814e19a56fa636ba696c89"
-var qSearch = "dogs";
+
 console.log(eventNameValue)
 var newsURL = "https://newsapi.org/v2/everything?q=" + newsKeyword + "&from=" + newsDateFrom + "&apiKey=" + newsApiKey;
-
+console.log(newsURL)
 var req = new Request(newsURL);
 fetch(req)
     .then(function(response) {
