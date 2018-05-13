@@ -3,6 +3,7 @@
 // ========================================================
 var meetupList;
 var userZip, userName;
+var weatherCounter, newsCounter;
 
 
 // ========================================================
@@ -15,6 +16,7 @@ var database = firebase.database();
 $("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
     userZip = $("#user-zip").val().trim();
+    $("#moveme-body").removeClass("hidden");
     database.ref("/zip").once("value", function(snap){
 
         var zipObject = snap.val();
@@ -177,6 +179,11 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
+        // weatherCounter = 0;
+        // weatherRecursion();
+        // newsCounter = 0;
+        // newsRecursion();
+        
         // console.log("meetupList")
         // console.log(meetupList)
         displayMeetups();
@@ -213,14 +220,15 @@ function displayMeetups() {
         eventCard.addClass("card col m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header row bg-dark text-light p-2 event-card-header");
+        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
 
         var eventCardHeaderName = $("<h5>");
         eventCardHeaderName.addClass("col-8");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
         eventCardHeaderDate.addClass("col-4 text-right");
-        eventCardHeaderDate.text(moment(currObj.date).format("MM/DD/YYYY"));
+        
+        eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
         eventCardHeader.append(eventCardHeaderName);
         eventCardHeader.append(eventCardHeaderDate);
@@ -238,7 +246,7 @@ function displayMeetups() {
 
         var eventTime = $("<h6>");
         eventTime.addClass("text-right")
-        eventTime.text(moment(currObj.date).format("HH:mm"));
+        eventTime.text(currObj.eventDate.format("h:mm a"));
 
         var eventWeather = $("<p>");
         //put weather data here
@@ -252,7 +260,7 @@ function displayMeetups() {
         //add news article stuff here?
 
         var moveMePin = $("<img>");
-        moveMePin.attr("src", "assets/images/MoveMePin.png");
+        moveMePin.attr("src", "assets/images/MoveMePin.jpg");
         moveMePin.attr("alt", "Map Pin Toggle");
         moveMePin.addClass("chat-pin-toggle");
         moveMePin.attr("data-lat", currObj.lat);
@@ -388,3 +396,29 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
+
+// var outCounter = 0;
+
+// function weatherRecursion () {
+//     if (outCounter < meetupList.length){
+//         var currObj = meetupList[outCounter];
+//         // URL logic here
+//         $.ajax({
+//             url: queryURL,
+//             method: "GET"
+//         }).then(function (response) {
+//             var tempWeather; //grab the weather from the response
+//             meetupList[outCounter].weather = tempWeather;
+//             outCounter++;
+//             weatherRecursion();
+//         })
+//     } else {
+//         displayMeetups();
+//     }
+// }
+
+// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
+
+
+    // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
+// }
