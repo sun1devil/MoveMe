@@ -3,6 +3,7 @@
 // ========================================================
 var meetupList;
 var userZip, userName;
+var weatherCounter, newsCounter;
 
 
 // ========================================================
@@ -15,6 +16,7 @@ var database = firebase.database();
 $("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
     userZip = $("#user-zip").val().trim();
+    $("#moveme-body").removeClass("hidden");
     database.ref("/zip").once("value", function(snap){
 
         var zipObject = snap.val();
@@ -237,6 +239,11 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
+        // weatherCounter = 0;
+        // weatherRecursion();
+        // newsCounter = 0;
+        // newsRecursion();
+        
         // console.log("meetupList")
         // console.log(meetupList)
         displayMeetups();
@@ -273,14 +280,15 @@ function displayMeetups() {
         eventCard.addClass("card col m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header row bg-dark text-light p-2 event-card-header");
+        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
 
         var eventCardHeaderName = $("<h5>");
         eventCardHeaderName.addClass("col-8");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
         eventCardHeaderDate.addClass("col-4 text-right");
-        eventCardHeaderDate.text(moment(currObj.date).format("MM/DD/YYYY"));
+        
+        eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
         eventCardHeader.append(eventCardHeaderName);
         eventCardHeader.append(eventCardHeaderDate);
@@ -298,7 +306,7 @@ function displayMeetups() {
 
         var eventTime = $("<h6>");
         eventTime.addClass("text-right")
-        eventTime.text(moment(currObj.date).format("HH:mm"));
+        eventTime.text(currObj.eventDate.format("h:mm a"));
 
         var eventWeather = $("<p>");
         //put weather data here
@@ -312,7 +320,7 @@ function displayMeetups() {
         //add news article stuff here?
 
         var moveMePin = $("<img>");
-        moveMePin.attr("src", "assets/images/MoveMePin.png");
+        moveMePin.attr("src", "assets/images/MoveMePin.jpg");
         moveMePin.attr("alt", "Map Pin Toggle");
         moveMePin.addClass("chat-pin-toggle");
         moveMePin.attr("data-lat", currObj.lat);
@@ -350,6 +358,10 @@ $(document).on("click", ".event-card-body", function(event) {
 // ========================================================
 
 var database = firebase.database();
+var userColor; 
+function randInt(x) {
+    return Math.floor(Math.random() * x);
+}
 
 $(document).on("click", "#chat-header", function(event) {
     if (!userName){
@@ -363,6 +375,7 @@ $(document).on("click", "#chat-header", function(event) {
     $("html, body").scrollTop($(document).height());
 })
 
+
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
@@ -373,18 +386,63 @@ $(document).on("click", "#chat-name-submit", function(event){
         $("#chat-box").removeClass("hidden");
         $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
         $("html, body").scrollTop($(document).height());
+        database.ref("/chatUsers").once("value", function(snap){
+            if (snap.hasChild(userName)) {
+                userColor = snap.val()[userName];
+            } else {
+                var tempRand = randInt(200);
+                userColor = "rgba(" + (50+ tempRand) + ", " + randInt(100) + ", " + (250-tempRand) + ", 1);";
+                var userObject = {};
+                userObject[userName] = userColor;
+                database.ref("/chatUsers").update(userObject);
+            }
+        })
     }
 })
 
 $(document).on("click", "#chat-submit", function(event){
     event.preventDefault();
-    var chatItem = userName + ":  " + $("#chat-input").val().trim();
+    var chatItem = {};
+    var time = moment().format("HH:mm MM/DD/YY")
+    chatItem.name = userName;
+    chatItem.color = userColor;
+    chatItem.time = time;
+    chatItem.message = $("#chat-input").val().trim();
+
     $("#chat-input").val("");
     database.ref("/chat").push(chatItem);
 });
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
-    $("#chat-display").append($("<p>").text(childSnapshot.val()));
+
+    var chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY")
+    var chatTime = moment(chatDate.format("MM/DD/YY"), "MM/DD/YY");
+    var chatTimeColor;
+    if (parseInt(moment().diff(chatTime, "days")) !== 0) {
+        chatTime = chatDate.format("MMM Do");
+        chatTimeColor = "font-style: italic; color: rgba(150, 150, 150, 1)";
+    } else {
+        chatTime = chatDate.format("h:mm a");
+    }
+    var chatItem = $("<p>");
+    var chatTimeDisplay = $("<span>");
+    chatTimeDisplay.addClass("chat-time-display")
+    chatTimeDisplay.attr("style", chatTimeColor);
+    chatTimeDisplay.text("(" + chatTime + ") ")
+    var chatNameDisplay = $("<span>");
+    chatNameDisplay.addClass("chat-name-display")
+    chatNameDisplay.attr("style", "color: " + childSnapshot.val().color + "; font-weight: bold");
+    chatNameDisplay.text(childSnapshot.val().name);
+    var chatMessageDisplay = $("<span>");
+    chatMessageDisplay.addClass("chat-message-display")
+    chatMessageDisplay.attr("style", chatTimeColor);
+    chatMessageDisplay.text(childSnapshot.val().message);
+
+    chatItem.append(chatTimeDisplay);
+    chatItem.append(chatNameDisplay);
+    chatItem.append(":  ");
+    chatItem.append(chatMessageDisplay)
+    $("#chat-display").append(chatItem);
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
@@ -398,3 +456,29 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
+
+// var outCounter = 0;
+
+// function weatherRecursion () {
+//     if (outCounter < meetupList.length){
+//         var currObj = meetupList[outCounter];
+//         // URL logic here
+//         $.ajax({
+//             url: queryURL,
+//             method: "GET"
+//         }).then(function (response) {
+//             var tempWeather; //grab the weather from the response
+//             meetupList[outCounter].weather = tempWeather;
+//             outCounter++;
+//             weatherRecursion();
+//         })
+//     } else {
+//         displayMeetups();
+//     }
+// }
+
+// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
+
+
+    // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
+// }

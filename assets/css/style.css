@@ -32,6 +32,10 @@
 
 body{
     overflow-x:hidden;
+    background-image: url("../images/flag-background.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: 100px;
 }
 
 .hidden {
@@ -47,4 +51,31 @@ body{
     height: 400px !important;
     overflow-y: scroll !important;
 
+}
+
+.event-card-header {
+    background-color: #00239b;
+}
+
+.event-display-header, #chat-header {
+    background-color: #ca0202;
+}
+
+#page-header {
+    background-color: #eee;
+    border-bottom: solid;
+    border-bottom-color: #ca0202;
+    border-bottom-width: 7px;
+}
+
+#moveme-body {
+    background-color: rgba(200, 200, 200, .9);
+}
+
+#event-content {
+    background-color: rgba(200, 200, 200, 0) !important;
+}
+
+#event-display {
+    background-color: rgba(200, 200, 200, 0) !important;
 }
