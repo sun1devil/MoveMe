@@ -323,7 +323,8 @@ $(document).on("click", "#chat-name-submit", function(event){
             if (snap.hasChild(userName)) {
                 userColor = snap.val()[userName];
             } else {
-                userColor = "rgb(" + randInt(100) + ", " + randInt(30) + ", " + randInt(100) + ");";
+                var tempRand = randInt(200);
+                userColor = "rgba(" + (50+ tempRand) + ", " + randInt(100) + ", " + (250-tempRand) + ", 1);";
                 var userObject = {};
                 userObject[userName] = userColor;
                 database.ref("/chatUsers").set(userObject);
@@ -346,15 +347,32 @@ $(document).on("click", "#chat-submit", function(event){
 });
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
+    console.log(childSnapshot.val())
     var chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY")
     var chatTime = moment(chatDate.format("MM/DD/YY"), "MM/DD/YY");
+    var chatTimeColor;
     if (parseInt(moment().diff(chatTime, "days")) !== 0) {
         chatTime = chatDate.format("MMM Do");
+        chatTimeColor = "color: rgba(150, 150, 150, 1) !important;";
     } else {
         chatTime = chatDate.format("h:mm a");
     }
     var chatItem = $("<p>");
-    $("#chat-display").append($("<p>").text(childSnapshot.val().message));
+    var chatTimeDisplay = $("<span>");
+    chatTimeDisplay.attr("style", chatTimeColor);
+    chatTimeDisplay.text("(" + chatTime + ") ")
+    var chatNameDisplay = $("<span>");
+    chatNameDisplay.attr("style", "color: " + childSnapshot.val().color + " !important; font-weight: bold");
+    chatNameDisplay.text(childSnapshot.val().name);
+    var chatMessageDisplay = $("<span>");
+    chatMessageDisplay.attr("style", chatTimeColor);
+    chatMessageDisplay.text(childSnapshot.val().message);
+
+    chatItem.append(chatTimeDisplay);
+    chatItem.append(chatNameDisplay);
+    chatItem.append(":  ");
+    chatItem.append(chatMessageDisplay)
+    $("#chat-display").append(chatItem);
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
