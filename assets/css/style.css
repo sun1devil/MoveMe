@@ -71,11 +71,3 @@ body{
 #moveme-body {
     background-color: rgba(200, 200, 200, .9);
 }
-
-#event-content {
-    background-color: rgba(200, 200, 200, 0) !important;
-}
-
-#event-display {
-    background-color: rgba(200, 200, 200, 0) !important;
-}
