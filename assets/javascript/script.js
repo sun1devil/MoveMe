@@ -176,8 +176,8 @@ $("#user-zip-submit").on("click", function () {
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            console.log("forLoop: " + i)
-            console.log(response[i]);
+            // console.log("forLoop: " + i)
+            // console.log(response[i]);
             var temp = {};
 
             if (response[i].next_event) {
@@ -351,6 +351,7 @@ $(document).on("click", ".event-card-body", function(event) {
 
 var database = firebase.database();
 var userColor; 
+
 function randInt(x) {
     return Math.floor(Math.random() * x);
 }
@@ -371,8 +372,9 @@ $(document).on("click", "#chat-header", function(event) {
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
-    $("#chat-name-input").val("")
+
     if (userName) {
+        $("#chat-name-input").val("")
         $("#chat-name").addClass("hidden");
         $("#chat-display").removeClass("hidden");
         $("#chat-box").removeClass("hidden");
@@ -389,6 +391,7 @@ $(document).on("click", "#chat-name-submit", function(event){
                 database.ref("/chatUsers").update(userObject);
             }
         })
+
     }
 })
 
@@ -453,7 +456,6 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
-
 
 // ========================================================
 //                   Weather API
