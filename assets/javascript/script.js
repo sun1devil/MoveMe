@@ -53,69 +53,6 @@ $("#user-zip-submit").on("click", function (event) {
         
     })
 
-///Weather API Variables, Need to determine if we want weather at Zip entered or at event long lat.
- var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/37.8267,-122.4233,1526162017?/exclude=currently,flags,minutely,alerts"
-    // var longValue
-    // var latvalue
-    //  var weatherLoc= 37.8267, -122.4233;
-    // var weatherUrl ="https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/" + weatherLoc "/" + rawDate converted to unix
-    //date = May 14 2008 from variable declared in event Ajax call named rawDate 1526349600000
-    var weatherDate = moment(1526349600000).unix();{
-    console.log(weatherDate);
-    }
-    
-    // weather variables//
-    var summary; 
-    var high;
-    var low; 
-    var wind;
-    var weatherIcon;
-//  request weather with ajax through proxy 
-jQuery.ajaxPrefilter(function (options) {
-if (options.crossDomain && jQuery.support.cors) {
-    options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-}
-});
- $.ajax({
-    url: weatherURL,
-    method: "GET"
-}).then(function (response) 
-{
-    console.log(response);
-    console.log(response.daily.data.summary)
-    weatherList = [];
-
-    for (var i = 0; i < response.length; i++)
-    {
-    console.log(response[i]);
-    var tempWeather = {};
-    
-    if (response[i].daily) 
-        {
-    
-    summary = response[i].daily.data.summary;
-    high = response[i].daily.data.temperatureHigh;
-    low = response[i].daily.data.temperatureLow;
-    wind = response[i].daily.data.windSpeed;;
-    weatherIcon = response[i].daily.data.icon
-            
-    //store in object weatherList array
-    tempWeather["Summary"] = summary;
-    tempWeather["High"] = high;
-    tempWeather["Low"] = low;
-    tempWeather["Wind"] = wind;
-    tempWeather["Icon"] = weatherIcon;
-
-    console.log(tempWeather)
-
-    //push object to array
-    weatherList.push(tempWeather);
-}
-    }
-        });
-
-
-
 // ========================================================
 //                   Mindy
 // ========================================================
@@ -132,9 +69,9 @@ function initMap(latitude, longitude) {
   });
 }
 
-// var mapResults = initMap(37.773972, -122.431297);
-// $("#google-map").push(mapResults);
-// console.log(mapResults)
+var mapResults = initMap(37.773972, -122.431297);
+$("#google-map").push(mapResults);
+console.log(mapResults)
 
 // This will give you the latitude and longitude of the event associated with the
 // pin the user clicked on
@@ -145,12 +82,10 @@ $(document).on("click", ".chat-pin-toggle", function (event){
 
 
 
-
+})
 // YOUR CODE HERE
 
 
-
-})
 
 // ========================================================
 //                   Hannah
@@ -178,7 +113,7 @@ $("#user-zip-submit").on("click", function () {
     var longValue;
     var latValue;
     var eventDate;
-
+    
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
         // var date = new Date(1526086800000);
@@ -206,6 +141,7 @@ $("#user-zip-submit").on("click", function () {
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
                 eventDate = response[i].next_event.time;
+                // console.log(eventDate);
                 var rawDate = new Date(eventDate);
                 formattedDate = rawDate.toString(rawDate);
                 finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
@@ -217,6 +153,7 @@ $("#user-zip-submit").on("click", function () {
                 };
 
                 longValue = response[i].lon;
+                // console.log(longValue)
                 latValue = response[i].lat;
 
                 // console.log(eventNameValue);
@@ -464,4 +401,93 @@ database.ref("/chat").on("value", function (snapshot){
             database.ref("/chat").child(tempKeys[i-maxChatStorage]).remove();
         }
     }
+
 })
+
+
+// ========================================================
+//                   Weather API
+// ========================================================
+
+// var outCounter = 0;
+// weather Variables
+var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/37.8267,-122.4233,1526162017?/"
+var weatherLoc = lat + "," +  long + "," + weatherDate
+var lat
+var long
+var eventDate
+var weatherDate = moment(eventDate).unix();{
+    console.log(weatherDate);
+    
+}  
+    
+//Weather Data points
+var summary; 
+var high;
+var low; 
+var wind;
+var weatherIcon;
+// function weatherRecursion () {
+//     if (outCounter < meetupList.length){
+//         var currObj = meetupList[outCounter];
+      //  request weather with ajax through proxy 
+jQuery.ajaxPrefilter(function (options) {
+if (options.crossDomain && jQuery.support.cors) {
+options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+}
+});
+$.ajax({
+url: weatherURL,
+method: "GET"
+}).then(function (response) 
+{
+    console.log(response);
+    
+
+var summary = response.hourly.summary;
+weatherList = [summary];
+console.log(weatherList)
+// for (var i = 0; i < response.length; i++)
+// {
+// // console.log(response[i]);
+// var tempWeather = {};
+
+// if (response[i].daily) 
+//   {
+        
+// //store in object weatherList array
+// tempWeather["Summary"] = summary;
+// tempWeather["High"] = high;
+// tempWeather["Low"] = low;
+// tempWeather["Wind"] = wind;
+// tempWeather["Icon"] = weatherIcon;
+
+
+// //push object to array
+// weatherList.push(tempWeather);
+});
+
+
+
+
+
+
+
+
+
+//         {
+//             var tempWeather; //grab the weather from the response
+//             meetupList[outCounter].weather = tempWeather;
+//             outCounter++;
+//             weatherRecursion();
+//         })
+//     } else {
+//         displayMeetups();
+//     }
+// }
+
+// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
+
+
+    // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
+// }
