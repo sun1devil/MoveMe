@@ -91,7 +91,8 @@ function displayGoogleMap() {
         var currLong = meetupList[i].long;
         var eventName = meetupList[i].eventName;
         var eventInfo = 
-        "<h6>" + eventName + "</h6>" + 
+        "<a href = '" + meetupList[i].eventURL + "' target='_blank'" + " alt='" + eventName + "'>" + "<h6>" + eventName + "</h6>"
+        + "</a>" +
         "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(currLat, currLong),
@@ -158,7 +159,10 @@ $("#user-zip-submit").on("click", function () {
     var longValue;
     var latValue;
     var eventDate;
-    
+    var groupLink;
+    var linkNextEvent;
+    var eventURL;
+
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
         // var date = new Date(1526086800000);
@@ -185,7 +189,12 @@ $("#user-zip-submit").on("click", function () {
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
                 eventDate = response[i].next_event.time;
+                groupLink = response[i].link;
+                linkNextEvent = response[i].next_event.id;
                 // console.log(eventDate);
+
+                eventURL = groupLink + "events/" + linkNextEvent
+
                 var rawDate = new Date(eventDate);
                 formattedDate = rawDate.toString(rawDate);
                 finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
@@ -217,6 +226,7 @@ $("#user-zip-submit").on("click", function () {
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
                 temp["eventDate"] = finalDateTime;
+                temp["eventURL"] = eventURL;
                 // console.log(temp)
 
                 //push object to array
