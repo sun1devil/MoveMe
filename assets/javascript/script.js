@@ -445,8 +445,10 @@ method: "GET"
     
 
 var summary = response.hourly.summary;
-weatherList = [summary];
+var weatherIcon =response.hourly.icon
+weatherList = [summary, weatherIcon];
 console.log(weatherList)
+
 // for (var i = 0; i < response.length; i++)
 // {
 // // console.log(response[i]);
