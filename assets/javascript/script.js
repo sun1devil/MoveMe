@@ -323,7 +323,7 @@ function displayMeetups() {
         moveMePin.attr("data-lat", currObj.lat);
         moveMePin.attr("data-long", currObj.long);
         var eventInfo = 
-        "<h6>" + currObj.eventName + "</h6>" + 
+        "<a href = '" + currObj.eventURL + "' target='_blank'" + " alt='" + currObj.eventName + "'>" + "<h6>" + currObj.eventName + "</h6>" + "</a>" +
         "<p>" + currObj.eventDate.format("h:mm a MM/DD") + "</p>";
         moveMePin.attr("data-info", eventInfo);
 
