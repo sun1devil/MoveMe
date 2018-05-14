@@ -91,7 +91,8 @@ function displayGoogleMap() {
         var currLong = meetupList[i].long;
         var eventName = meetupList[i].eventName;
         var eventInfo = 
-        "<h6>" + eventName + "</h6>" + 
+        "<a href = '" + meetupList[i].eventURL + "' target='_blank'" + " alt='" + eventName + "'>" + "<h6>" + eventName + "</h6>"
+        + "</a>" +
         "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(currLat, currLong),
@@ -110,7 +111,7 @@ function displayGoogleMap() {
         })(marker, eventInfo));
     }
     map.fitBounds(bounds);
-    console.log(markerObj);
+    // console.log(markerObj);
 }
 
 // This will give you the latitude and longitude of the event associated with the
@@ -118,14 +119,10 @@ function displayGoogleMap() {
 $(document).on("click", ".chat-pin-toggle", function (event){
     var currLat = $(this).data("lat");
     var currLong = $(this).data("long");
-    var currInfo = $(this).data("info");
-    // alert("lat: " + currLat + " long: " + currLong + " " + currInfo)
+    alert("lat: " + currLat + " long: " + currLong)
     var currMarker = markerObj[currLat + "," + currLong];
     // console.log(currLat + "," + currLong)
     // console.log(currMarker)
-    // console.log(currInfo)
-    infowindow.setContent(currInfo);
-    infowindow.open(map, currMarker);
 
 })
 // YOUR CODE HERE
@@ -158,6 +155,9 @@ $("#user-zip-submit").on("click", function () {
     var longValue;
     var latValue;
     var eventDate;
+    var groupLink;
+    var linkNextEvent;
+    var eventURL;
     
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
@@ -181,11 +181,20 @@ $("#user-zip-submit").on("click", function () {
             var temp = {};
 
             if (response[i].next_event) {
-
+                console.log(response[i])
                 eventNameValue = response[i].next_event.name;
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
                 eventDate = response[i].next_event.time;
+                groupLink = response[i].link;
+                linkNextEvent = response[i].next_event.id;
+                // console.log(groupLink)
+                // console.log(linkNextEvent)
+
+                eventURL = groupLink + "events/" + linkNextEvent
+                // console.log(eventURL)
+
+
                 // console.log(eventDate);
                 var rawDate = new Date(eventDate);
                 formattedDate = rawDate.toString(rawDate);
@@ -218,6 +227,8 @@ $("#user-zip-submit").on("click", function () {
                 temp["lat"] = latValue;
                 temp["long"] = longValue;
                 temp["eventDate"] = finalDateTime;
+                temp["eventURL"] = eventURL;
+                // console.log(eventURL)
                 // console.log(temp)
 
                 //push object to array
@@ -258,20 +269,21 @@ function displayMeetups() {
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
+
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
+        eventWrapper.addClass("mt-4 pr-4 event-wrapper");
 
         var eventCard = $("<div>");
-        eventCard.addClass("card col p-0 m-2 position-relative");
+        eventCard.addClass("card col m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header text-light event-card-header");
+        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
 
         var eventCardHeaderName = $("<h5>");
-        eventCardHeaderName.addClass("float-left");
+        eventCardHeaderName.addClass("col-8");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
-        eventCardHeaderDate.addClass("text-right");
+        eventCardHeaderDate.addClass("col-4 text-right");
         
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
@@ -280,7 +292,7 @@ function displayMeetups() {
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body m-0 p-3 event-card-body");
+        eventCardBody.addClass("card-body p-0 event-card-body");
         
         if (currObj.image){
             var eventCardImage = $("<img>");
@@ -290,20 +302,17 @@ function displayMeetups() {
         }
 
         var eventTime = $("<h6>");
-        eventTime.addClass("text-right float-right pr-2");
+        eventTime.addClass("text-right")
         eventTime.text(currObj.eventDate.format("h:mm a"));
 
-        var eventWeather = $("<h6>");
-        eventTime.addClass("pl-2");
-        eventWeather.text("There will be weather.");
+        var eventWeather = $("<p>");
+        //put weather data here
 
         var eventDescrip = $("<p>");
-        eventDescrip.addClass("pl-2 mt-3 event-card-content");
         eventDescrip.html(currObj.descrip);
 
         var eventAttendees = $("<p>");
-        eventAttendees.addClass("text-right pr-2 mr-5 event-card-content");
-        eventAttendees.text(currObj.attending + " other people are attending.");
+        eventAttendees.text(currObj.attending + " other people are attending.")
 
         //add news article stuff here?
 
@@ -313,16 +322,11 @@ function displayMeetups() {
         moveMePin.addClass("chat-pin-toggle");
         moveMePin.attr("data-lat", currObj.lat);
         moveMePin.attr("data-long", currObj.long);
-        var eventInfo = 
-        "<h6>" + currObj.eventName + "</h6>" + 
-        "<p>" + currObj.eventDate.format("h:mm a MM/DD") + "</p>";
-        moveMePin.attr("data-info", eventInfo);
 
         if (currObj.image){
         eventCardBody.append(eventCardImage);
         }
         eventCardBody.append(eventTime);
-        eventCardBody.append(eventWeather);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
         eventCardBody.append(moveMePin);
