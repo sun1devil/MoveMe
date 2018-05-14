@@ -64,6 +64,11 @@ body{
     background-color: #00239b;
 }
 
+.event-card-icon {
+    height: 25px;
+    padding-right: 10px;
+}
+
 .event-card-body {
     height: 200px;
     overflow-y: hidden;
