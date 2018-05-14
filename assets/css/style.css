@@ -38,6 +38,7 @@ body{
 
 .event-display-header, #chat-header {
     background-color: #ca0202;
+    border-color: #ca0202;
 }
 
 #event-content {
