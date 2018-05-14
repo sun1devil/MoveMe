@@ -293,7 +293,7 @@ function displayMeetups() {
 
         var eventWeather = $("<h6>");
         eventTime.addClass("pl-2");
-        eventWeather.text("Weather Placeholder Here");
+        eventWeather.text("There will be weather.");
 
         var eventDescrip = $("<p>");
         eventDescrip.addClass("pl-2 mt-3 event-card-content");
