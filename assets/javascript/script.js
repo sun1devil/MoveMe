@@ -43,7 +43,11 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
-        $("#zip-count").text(zipObject[userZip])
+        if (zipObject.hasOwnProperty(userZip)){
+            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
+        } else {
+            $("#zip-count").text("Come join us!")
+        }
         
         
         
@@ -87,7 +91,7 @@ function displayGoogleMap() {
         var currLong = meetupList[i].long;
         var eventName = meetupList[i].eventName;
         var eventInfo = 
-        "<h4>" + eventName + "</h4>" + 
+        "<h6>" + eventName + "</h6>" + 
         "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(currLat, currLong),
