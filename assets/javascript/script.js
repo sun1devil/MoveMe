@@ -118,11 +118,14 @@ function displayGoogleMap() {
 $(document).on("click", ".chat-pin-toggle", function (event){
     var currLat = $(this).data("lat");
     var currLong = $(this).data("long");
-    alert("lat: " + currLat + " long: " + currLong)
+    var currInfo = $(this).data("info");
+    // alert("lat: " + currLat + " long: " + currLong + " " + currInfo)
     var currMarker = markerObj[currLat + "," + currLong];
-    console.log(currLat + "," + currLong)
-    console.log(currMarker)
-
+    // console.log(currLat + "," + currLong)
+    // console.log(currMarker)
+    // console.log(currInfo)
+    infowindow.setContent(currInfo);
+    infowindow.open(map, currMarker);
 
 })
 // YOUR CODE HERE
@@ -255,7 +258,6 @@ function displayMeetups() {
     for (var i = 0; i < meetupList.length; i++) {
         var currObj = meetupList[i];
 
-
         var eventWrapper = $("<div>");
         eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
 
@@ -311,6 +313,10 @@ function displayMeetups() {
         moveMePin.addClass("chat-pin-toggle");
         moveMePin.attr("data-lat", currObj.lat);
         moveMePin.attr("data-long", currObj.long);
+        var eventInfo = 
+        "<h6>" + currObj.eventName + "</h6>" + 
+        "<p>" + currObj.eventDate.format("h:mm a MM/DD") + "</p>";
+        moveMePin.attr("data-info", eventInfo);
 
         if (currObj.image){
         eventCardBody.append(eventCardImage);
