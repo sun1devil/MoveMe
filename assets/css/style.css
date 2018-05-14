@@ -72,6 +72,11 @@ body{
     border-width: 3px;
 }
 
+.event-card-content {
+    width: auto; 
+    overflow: hidden; 
+}
+
 .chat-pin-toggle {
     height:75px;
     position: absolute;
