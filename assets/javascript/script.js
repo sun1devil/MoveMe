@@ -65,9 +65,9 @@ function initMap(latitude, longitude) {
   });
 }
 
-// var mapResults = initMap(37.773972, -122.431297);
-// $("#google-map").push(mapResults);
-// console.log(mapResults)
+var mapResults = initMap(37.773972, -122.431297);
+$("#google-map").push(mapResults);
+console.log(mapResults)
 
 // This will give you the latitude and longitude of the event associated with the
 // pin the user clicked on
@@ -78,12 +78,10 @@ $(document).on("click", ".chat-pin-toggle", function (event){
 
 
 
-
-YOUR CODE HERE
-
-
-
 })
+// YOUR CODE HERE
+
+
 
 // ========================================================
 //                   Hannah
