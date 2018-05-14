@@ -43,7 +43,11 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
-        $("#zip-count").text(zipObject[userZip])
+        if (zipObject.hasOwnProperty(userZip)){
+            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
+        } else {
+            $("#zip-count").text("Come join us!")
+        }
         
         
         
@@ -316,19 +320,19 @@ function displayMeetups() {
 
 
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-4 pr-4 event-wrapper");
+        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
 
         var eventCard = $("<div>");
-        eventCard.addClass("card col m-2 position-relative");
+        eventCard.addClass("card col p-0 m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
+        eventCardHeader.addClass("card-header text-light event-card-header");
 
         var eventCardHeaderName = $("<h5>");
-        eventCardHeaderName.addClass("col-8");
+        eventCardHeaderName.addClass("float-left");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
-        eventCardHeaderDate.addClass("col-4 text-right");
+        eventCardHeaderDate.addClass("text-right");
         
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
@@ -337,7 +341,7 @@ function displayMeetups() {
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body p-0 event-card-body");
+        eventCardBody.addClass("card-body m-0 p-3 event-card-body");
         
         if (currObj.image){
             var eventCardImage = $("<img>");
@@ -347,16 +351,20 @@ function displayMeetups() {
         }
 
         var eventTime = $("<h6>");
-        eventTime.addClass("text-right")
+        eventTime.addClass("text-right float-right pr-2")
         eventTime.text(currObj.eventDate.format("h:mm a"));
 
-        var eventWeather = $("<p>");
+        var eventWeather = $("<h6>");
+        eventWeather.addClass("pl-2");
+        eventWeather.text("Weather Placeholder Here");
         //put weather data here
 
         var eventDescrip = $("<p>");
+        eventDescrip.addClass("pl-2 mt-3")
         eventDescrip.html(currObj.descrip);
 
         var eventAttendees = $("<p>");
+        eventAttendees.addClass("text-right pr-2 mr-5")
         eventAttendees.text(currObj.attending + " other people are attending.")
 
         //add news article stuff here?
@@ -372,6 +380,7 @@ function displayMeetups() {
         eventCardBody.append(eventCardImage);
         }
         eventCardBody.append(eventTime);
+        eventCardBody.append(eventWeather);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
         eventCardBody.append(moveMePin);
@@ -498,29 +507,3 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
-
-// var outCounter = 0;
-
-// function weatherRecursion () {
-//     if (outCounter < meetupList.length){
-//         var currObj = meetupList[outCounter];
-//         // URL logic here
-//         $.ajax({
-//             url: queryURL,
-//             method: "GET"
-//         }).then(function (response) {
-//             var tempWeather; //grab the weather from the response
-//             meetupList[outCounter].weather = tempWeather;
-//             outCounter++;
-//             weatherRecursion();
-//         })
-//     } else {
-//         displayMeetups();
-//     }
-// }
-
-// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
-
-
-    // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
-// }

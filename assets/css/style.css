@@ -1,35 +1,3 @@
-#map {
-    height: 658px;
-    width: 100%;
-}
-
-#event-content {
-    height: 600px;
-    overflow-y: scroll;
-}
-
-#chat-display {
-    height: 300px;
-    overflow-y: scroll;
-}
-
-#chat-name-box {
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.event-card-image {
-    width:200px;
-}
-
-.chat-pin-toggle {
-    height:75px;
-    position: absolute;
-    bottom: 10px;
-    right: 35px;
-}
-
 body{
     overflow-x:hidden;
     background-image: url("../images/flag-background.jpeg");
@@ -38,8 +6,47 @@ body{
     background-position-y: 100px;
 }
 
-.hidden {
-    display:none;
+#page-header {
+    background-color: #fff;
+    border-bottom: solid;
+    border-bottom-color: #ca0202;
+    border-bottom-width: 7px;
+}
+
+#moveme-logo {
+    height: 220px;
+}
+
+.move-style {
+    color: #00239b;
+    font-weight: bold;
+}
+
+.me-style {
+    color: #ca0202;
+    font-style: italic;
+}
+
+#moveme-body {
+    background-color: rgba(200, 200, 200, .9);
+}
+
+#google-map {
+    height: 658px;
+    width: 100%;
+}
+
+.event-display-header, #chat-header {
+    background-color: #ca0202;
+}
+
+#event-content {
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.event-card-header {
+    background-color: #00239b;
 }
 
 .event-card-body {
@@ -50,24 +57,39 @@ body{
 .active-event-card-body {
     height: 400px !important;
     overflow-y: scroll !important;
-
 }
 
-.event-card-header {
-    background-color: #00239b;
+.hidden {
+    display:none;
 }
 
-.event-display-header, #chat-header {
-    background-color: #ca0202;
+.event-card-image {
+    width:200px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    border: outset;
+    border-color: #ccc;
+    border-width: 3px;
 }
 
-#page-header {
-    background-color: #eee;
-    border-bottom: solid;
-    border-bottom-color: #ca0202;
-    border-bottom-width: 7px;
+.chat-pin-toggle {
+    height:75px;
+    position: absolute;
+    bottom: 0px;
+    right: 17px;
 }
 
-#moveme-body {
-    background-color: rgba(200, 200, 200, .9);
+#chat-display {
+    height: 300px;
+    overflow-y: scroll;
 }
+
+#chat-name-box {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
