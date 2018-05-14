@@ -27,6 +27,21 @@ body{
     font-style: italic;
 }
 
+#moveme-loading {
+    height: 350px;
+}
+
+#loading-message{
+
+}
+
+#loading-gif {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    height: 200px;
+}
+
 #moveme-body {
     background-color: rgba(200, 200, 200, .9);
 }

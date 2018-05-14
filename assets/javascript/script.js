@@ -16,7 +16,6 @@ var database = firebase.database();
 $("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
     userZip = $("#user-zip").val().trim();
-    $("#moveme-body").removeClass("hidden");
     database.ref("/zip").once("value", function (snap) {
 
         var zipObject = snap.val();
@@ -110,7 +109,6 @@ function displayGoogleMap() {
         })(marker, eventInfo));
     }
     map.fitBounds(bounds);
-    console.log(markerObj);
 }
 
 // This will give you the latitude and longitude of the event associated with the
@@ -145,6 +143,9 @@ $("#user-zip-submit").on("click", function () {
     //declare variables
     userZip = $("#user-zip").val().trim();
     $("#user-zip").val("");
+    $("#moveme-main-display").addClass("hidden");
+    $("#moveme-loading").removeClass("hidden");
+    $("#moveme-body").removeClass("hidden");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 10;
     var category = 13;
@@ -233,17 +234,17 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
-        // console.log("STARTING SORT")
         bubbleSortMeetUpList();
         getWeather();
         // weatherCounter = 0;
         // weatherRecursion();
         // newsCounter = 0;
         // newsRecursion();
+        $("#moveme-main-display").removeClass("hidden");
+        $("#moveme-loading").addClass("hidden");
         displayGoogleMap();
         // console.log("meetupList")
         // console.log(meetupList)
-
     });
     // push to html
     //create attributes for tag
