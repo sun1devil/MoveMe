@@ -43,11 +43,7 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
-        if (zipObject.hasOwnProperty(userZip)){
-            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
-        } else {
-            $("#zip-count").text("Come join us!")
-        }
+        $("#zip-count").text(zipObject[userZip])
         
         
         
@@ -57,21 +53,61 @@ $("#user-zip-submit").on("click", function (event) {
 //                   Mindy
 // ========================================================
 
-function initMap(latitude, longitude) {
-  var meetUpLoc = {lat: latitude, lng: longitude };
-  var map = new google.maps.Map(document.getElementById('google-map'), {
-    zoom: 4,
-    center: meetUpLoc
-  });
-  var marker = new google.maps.Marker({
-    position: meetUpLoc,
-    map: map
-  });
-}
+// function initMap(latitude, longitude) {
+//   var meetUpLoc = {lat: latitude, lng: longitude };
+//   var map = new google.maps.Map(document.getElementById('google-map'), {
+//     zoom: 4,
+//     center: meetUpLoc
+//   });
+//   var marker = new google.maps.Marker({
+//     position: meetUpLoc,
+//     map: map
+//   });
+// }
+// var marker;
 
-var mapResults = initMap(37.773972, -122.431297);
-$("#google-map").push(mapResults);
-console.log(mapResults)
+// var mapResults = initMap(37.773972, -122.431297);
+// $("#google-map").push(mapResults);
+// console.log(mapResults)
+var marker;
+var markerObj = {};
+var infowindow, map;
+
+function displayGoogleMap() {
+    var bounds = new google.maps.LatLngBounds();
+    var meetUpLoc = {lat: 37.773972, lng: -122.431297 };
+    infowindow =  new google.maps.InfoWindow({});
+    map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 11,
+    center: meetUpLoc
+    });
+
+    for (var i=0; i < meetupList.length; i++){
+        var currLat = meetupList[i].lat;
+        var currLong = meetupList[i].long;
+        var eventName = meetupList[i].eventName;
+        var eventInfo = 
+        "<h4>" + eventName + "</h4>" + 
+        "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(currLat, currLong),
+            map: map,
+            title: eventName
+          });
+        bounds.extend(marker.position);
+
+        var markerKey = currLat + "," + currLong;
+        markerObj[markerKey] = marker;
+        google.maps.event.addListener(marker, 'click', (function (mark, infoContent) {
+        return function () {
+            infowindow.setContent(infoContent);
+            infowindow.open(map, mark);
+        }
+        })(marker, eventInfo));
+    }
+    map.fitBounds(bounds);
+    console.log(markerObj);
+}
 
 // This will give you the latitude and longitude of the event associated with the
 // pin the user clicked on
@@ -79,7 +115,9 @@ $(document).on("click", ".chat-pin-toggle", function (event){
     var currLat = $(this).data("lat");
     var currLong = $(this).data("long");
     alert("lat: " + currLat + " long: " + currLong)
-
+    var currMarker = markerObj[currLat + "," + currLong];
+    console.log(currLat + "," + currLong)
+    console.log(currMarker)
 
 
 })
@@ -101,7 +139,7 @@ $("#user-zip-submit").on("click", function () {
     userZip = $("#user-zip").val().trim();
     $("#user-zip").val("");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
-    var radius = 20;
+    var radius = 10;
     var category = 13;
     var dateToday;
     var finalDateTime;
@@ -184,7 +222,7 @@ $("#user-zip-submit").on("click", function () {
         // weatherRecursion();
         // newsCounter = 0;
         // newsRecursion();
-        
+        displayGoogleMap();
         // console.log("meetupList")
         // console.log(meetupList)
         displayMeetups();
@@ -215,19 +253,19 @@ function displayMeetups() {
 
 
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
+        eventWrapper.addClass("mt-4 pr-4 event-wrapper");
 
         var eventCard = $("<div>");
-        eventCard.addClass("card col p-0 m-2 position-relative");
+        eventCard.addClass("card col m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header text-light event-card-header");
+        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
 
         var eventCardHeaderName = $("<h5>");
-        eventCardHeaderName.addClass("float-left");
+        eventCardHeaderName.addClass("col-8");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
-        eventCardHeaderDate.addClass("text-right");
+        eventCardHeaderDate.addClass("col-4 text-right");
         
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
@@ -236,7 +274,7 @@ function displayMeetups() {
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body m-0 p-3 event-card-body");
+        eventCardBody.addClass("card-body p-0 event-card-body");
         
         if (currObj.image){
             var eventCardImage = $("<img>");
@@ -246,20 +284,16 @@ function displayMeetups() {
         }
 
         var eventTime = $("<h6>");
-        eventTime.addClass("text-right float-right pr-2")
+        eventTime.addClass("text-right")
         eventTime.text(currObj.eventDate.format("h:mm a"));
 
-        var eventWeather = $("<h6>");
-        eventWeather.addClass("pl-2");
-        eventWeather.text("Weather Placeholder Here");
+        var eventWeather = $("<p>");
         //put weather data here
 
         var eventDescrip = $("<p>");
-        eventDescrip.addClass("pl-2 mt-3")
         eventDescrip.html(currObj.descrip);
 
         var eventAttendees = $("<p>");
-        eventAttendees.addClass("text-right pr-2 mr-5")
         eventAttendees.text(currObj.attending + " other people are attending.")
 
         //add news article stuff here?
@@ -275,7 +309,6 @@ function displayMeetups() {
         eventCardBody.append(eventCardImage);
         }
         eventCardBody.append(eventTime);
-        eventCardBody.append(eventWeather);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
         eventCardBody.append(moveMePin);
