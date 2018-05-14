@@ -473,15 +473,20 @@ database.ref("/chat").on("value", function (snapshot){
 
 // var outCounter = 0;
 // weather Variables
+
+// var lat = meetupList[0].lat;
+// // console.log(lat)
+// var long = meetupList[0].long;
+// var eventDate = meetupList[0].eventDate;
+// var weatherDate = eventDate.unix();{
+//     console.log(weatherDate);
+       
+// }  
+
+
+// var weatherLoc = lat + "," +  long + "," + weatherDate + "?/"
 var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/37.8267,-122.4233,1526162017?/"
-var weatherLoc = lat + "," +  long + "," + weatherDate
-var lat
-var long
-var eventDate
-var weatherDate = moment(eventDate).unix();{
-    console.log(weatherDate);
-    
-}  
+// var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/" + weatherLoc
     
 //Weather Data points
 var summary; 
