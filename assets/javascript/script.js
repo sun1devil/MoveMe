@@ -176,12 +176,11 @@ $("#user-zip-submit").on("click", function () {
         //response from api in json form
         //find fields we need
         for (var i = 0; i < response.length; i++) {
-            // console.log("forLoop: " + i)
-            // console.log(response[i]);
+            console.log("forLoop: " + i)
+            console.log(response[i]);
             var temp = {};
 
             if (response[i].next_event) {
-
                 eventNameValue = response[i].next_event.name;
                 descripValue = response[i].description;
                 attendingValue = response[i].next_event.yes_rsvp_count;
@@ -384,7 +383,7 @@ $(document).on("click", "#chat-name-submit", function(event){
                 userColor = snap.val()[userName];
             } else {
                 var tempRand = randInt(200);
-                userColor = "rgba(" + (50+ tempRand) + ", " + randInt(100) + ", " + (250-tempRand) + ", 1);";
+                userColor = "rgba(" + (50+ tempRand) + ", " + randInt(150) + ", " + (250-tempRand) + ", 1);";
                 var userObject = {};
                 userObject[userName] = userColor;
                 database.ref("/chatUsers").update(userObject);
@@ -440,15 +439,19 @@ database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
 })
 
 database.ref("/chat").on("value", function (snapshot){
-    if (snapshot.val()){
-        var maxChatStorage = 50;
+    var snap = snapshot.val();
+    if (snap){
+        var maxChatStorage = 30;
         var chatObj = snapshot.val();
+        var currDate;
         var tempKeys = Object.keys(snapshot.val());
-        for (var i=maxChatStorage; i<tempKeys.length; i++) {
-            database.ref("/chat").child(tempKeys[i-maxChatStorage]).remove();
+        for (var i=0; i<tempKeys.length; i++) {
+            var tempDate = moment(snap[tempKeys[i]].time, "HH:mm MM/DD/YY");
+            if (parseInt(moment().diff(tempDate, "days")) > maxChatStorage){
+                database.ref("/chat").child(tempKeys[i]).remove();
+            }
         }
     }
-
 })
 
 
