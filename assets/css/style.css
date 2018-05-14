@@ -31,7 +31,7 @@ body{
     background-color: rgba(200, 200, 200, .9);
 }
 
-#google-map {
+#map {
     height: 658px;
     width: 100%;
 }
