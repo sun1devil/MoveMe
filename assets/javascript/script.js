@@ -43,11 +43,7 @@ $("#user-zip-submit").on("click", function (event) {
     {
         var zipObject = snap.val();
         // console.log(snap.val());
-        if (zipObject.hasOwnProperty(userZip)){
-            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
-        } else {
-            $("#zip-count").text("Come join us!")
-        }
+        $("#zip-count").text(zipObject[userZip])
         
         
         
@@ -154,7 +150,7 @@ function displayGoogleMap() {
         var currLong = meetupList[i].long;
         var eventName = meetupList[i].eventName;
         var eventInfo = 
-        "<h6>" + eventName + "</h6>" + 
+        "<h4>" + eventName + "</h4>" + 
         "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(currLat, currLong),
@@ -320,19 +316,19 @@ function displayMeetups() {
 
 
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
+        eventWrapper.addClass("mt-4 pr-4 event-wrapper");
 
         var eventCard = $("<div>");
-        eventCard.addClass("card col p-0 m-2 position-relative");
+        eventCard.addClass("card col m-2 position-relative");
 
         var eventCardHeader = $("<div>");
-        eventCardHeader.addClass("card-header text-light event-card-header");
+        eventCardHeader.addClass("card-header row text-light p-2 event-card-header");
 
         var eventCardHeaderName = $("<h5>");
-        eventCardHeaderName.addClass("float-left");
+        eventCardHeaderName.addClass("col-8");
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
-        eventCardHeaderDate.addClass("text-right");
+        eventCardHeaderDate.addClass("col-4 text-right");
         
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
@@ -341,7 +337,7 @@ function displayMeetups() {
         eventCard.append(eventCardHeader);
 
         var eventCardBody = $("<div>");
-        eventCardBody.addClass("card-body m-0 p-3 event-card-body");
+        eventCardBody.addClass("card-body p-0 event-card-body");
         
         if (currObj.image){
             var eventCardImage = $("<img>");
@@ -351,20 +347,16 @@ function displayMeetups() {
         }
 
         var eventTime = $("<h6>");
-        eventTime.addClass("text-right float-right pr-2")
+        eventTime.addClass("text-right")
         eventTime.text(currObj.eventDate.format("h:mm a"));
 
-        var eventWeather = $("<h6>");
-        eventWeather.addClass("pl-2");
-        eventWeather.text("Weather Placeholder Here");
+        var eventWeather = $("<p>");
         //put weather data here
 
         var eventDescrip = $("<p>");
-        eventDescrip.addClass("pl-2 mt-3")
         eventDescrip.html(currObj.descrip);
 
         var eventAttendees = $("<p>");
-        eventAttendees.addClass("text-right pr-2 mr-5")
         eventAttendees.text(currObj.attending + " other people are attending.")
 
         //add news article stuff here?
@@ -380,7 +372,6 @@ function displayMeetups() {
         eventCardBody.append(eventCardImage);
         }
         eventCardBody.append(eventTime);
-        eventCardBody.append(eventWeather);
         eventCardBody.append(eventDescrip);
         eventCardBody.append(eventAttendees);
         eventCardBody.append(moveMePin);
@@ -507,3 +498,29 @@ database.ref("/chat").on("value", function (snapshot){
         }
     }
 })
+
+// var outCounter = 0;
+
+// function weatherRecursion () {
+//     if (outCounter < meetupList.length){
+//         var currObj = meetupList[outCounter];
+//         // URL logic here
+//         $.ajax({
+//             url: queryURL,
+//             method: "GET"
+//         }).then(function (response) {
+//             var tempWeather; //grab the weather from the response
+//             meetupList[outCounter].weather = tempWeather;
+//             outCounter++;
+//             weatherRecursion();
+//         })
+//     } else {
+//         displayMeetups();
+//     }
+// }
+
+// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
+
+
+    // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
+// }
