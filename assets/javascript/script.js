@@ -116,21 +116,61 @@ if (options.crossDomain && jQuery.support.cors) {
 //                   Mindy
 // ========================================================
 
-function initMap(latitude, longitude) {
-  var meetUpLoc = {lat: latitude, lng: longitude };
-  var map = new google.maps.Map(document.getElementById('google-map'), {
-    zoom: 4,
-    center: meetUpLoc
-  });
-  var marker = new google.maps.Marker({
-    position: meetUpLoc,
-    map: map
-  });
-}
+// function initMap(latitude, longitude) {
+//   var meetUpLoc = {lat: latitude, lng: longitude };
+//   var map = new google.maps.Map(document.getElementById('google-map'), {
+//     zoom: 4,
+//     center: meetUpLoc
+//   });
+//   var marker = new google.maps.Marker({
+//     position: meetUpLoc,
+//     map: map
+//   });
+// }
+// var marker;
 
 // var mapResults = initMap(37.773972, -122.431297);
 // $("#google-map").push(mapResults);
 // console.log(mapResults)
+var marker;
+var markerObj = {};
+var infowindow, map;
+
+function displayGoogleMap() {
+    var bounds = new google.maps.LatLngBounds();
+    var meetUpLoc = {lat: 37.773972, lng: -122.431297 };
+    infowindow =  new google.maps.InfoWindow({});
+    map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 11,
+    center: meetUpLoc
+    });
+
+    for (var i=0; i < meetupList.length; i++){
+        var currLat = meetupList[i].lat;
+        var currLong = meetupList[i].long;
+        var eventName = meetupList[i].eventName;
+        var eventInfo = 
+        "<h6>" + eventName + "</h6>" + 
+        "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(currLat, currLong),
+            map: map,
+            title: eventName
+          });
+        bounds.extend(marker.position);
+
+        var markerKey = currLat + "," + currLong;
+        markerObj[markerKey] = marker;
+        google.maps.event.addListener(marker, 'click', (function (mark, infoContent) {
+        return function () {
+            infowindow.setContent(infoContent);
+            infowindow.open(map, mark);
+        }
+        })(marker, eventInfo));
+    }
+    map.fitBounds(bounds);
+    console.log(markerObj);
+}
 
 // This will give you the latitude and longitude of the event associated with the
 // pin the user clicked on
@@ -138,7 +178,9 @@ $(document).on("click", ".chat-pin-toggle", function (event){
     var currLat = $(this).data("lat");
     var currLong = $(this).data("long");
     alert("lat: " + currLat + " long: " + currLong)
-
+    var currMarker = markerObj[currLat + "," + currLong];
+    console.log(currLat + "," + currLong)
+    console.log(currMarker)
 
 
 
@@ -162,7 +204,7 @@ $("#user-zip-submit").on("click", function () {
     userZip = $("#user-zip").val().trim();
     $("#user-zip").val("");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
-    var radius = 20;
+    var radius = 10;
     var category = 13;
     var dateToday;
     var finalDateTime;
@@ -243,7 +285,7 @@ $("#user-zip-submit").on("click", function () {
         // weatherRecursion();
         // newsCounter = 0;
         // newsRecursion();
-        
+        displayGoogleMap();
         // console.log("meetupList")
         // console.log(meetupList)
         displayMeetups();
