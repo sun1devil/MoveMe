@@ -17,41 +17,40 @@ $("#user-zip-submit").on("click", function (event) {
     event.preventDefault();
     userZip = $("#user-zip").val().trim();
     $("#moveme-body").removeClass("hidden");
-    database.ref("/zip").once("value", function(snap){
+    database.ref("/zip").once("value", function (snap) {
 
         var zipObject = snap.val();
 
-        if(zipObject.hasOwnProperty(userZip)){
+        if (zipObject.hasOwnProperty(userZip)) {
             zipObject[userZip]++;
-            
+
         }
-        else{
-            zipObject[userZip]=1
+        else {
+            zipObject[userZip] = 1
         }
-            
+
         // console.log(zipObject)
-        
+
         // database.ref("/zip").push(userZip);
         database.ref("/zip").update(zipObject)
         // console.log(userZip);
     });
 
-    })
+})
 
 
-    database.ref("/zip").on("value", function(snap)
-    {
-        var zipObject = snap.val();
-        // console.log(snap.val());
-        if (zipObject.hasOwnProperty(userZip)){
-            $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
-        } else {
-            $("#zip-count").text("Come join us!")
-        }
-        
-        
-        
-    })
+database.ref("/zip").on("value", function (snap) {
+    var zipObject = snap.val();
+    // console.log(snap.val());
+    if (zipObject.hasOwnProperty(userZip)) {
+        $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
+    } else {
+        $("#zip-count").text("Come join us!")
+    }
+
+
+
+})
 
 // ========================================================
 //                   Mindy
@@ -79,35 +78,35 @@ var infowindow, map;
 
 function displayGoogleMap() {
     var bounds = new google.maps.LatLngBounds();
-    var meetUpLoc = {lat: 37.773972, lng: -122.431297 };
-    infowindow =  new google.maps.InfoWindow({});
+    var meetUpLoc = { lat: 37.773972, lng: -122.431297 };
+    infowindow = new google.maps.InfoWindow({});
     map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11,
-    center: meetUpLoc
+        zoom: 11,
+        center: meetUpLoc
     });
 
-    for (var i=0; i < meetupList.length; i++){
+    for (var i = 0; i < meetupList.length; i++) {
         var currLat = meetupList[i].lat;
         var currLong = meetupList[i].long;
         var eventName = meetupList[i].eventName;
-        var eventInfo = 
-        "<a href = '" + meetupList[i].eventURL + "' target='_blank'" + " alt='" + eventName + "'>" + "<h6>" + eventName + "</h6>"
-        + "</a>" +
-        "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
+        var eventInfo =
+            "<a href = '" + meetupList[i].eventURL + "' target='_blank'" + " alt='" + eventName + "'>" + "<h6>" + eventName + "</h6>"
+            + "</a>" +
+            "<p>" + meetupList[i].eventDate.format("h:mm a MM/DD") + "</p>";
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(currLat, currLong),
             map: map,
             title: eventName
-          });
+        });
         bounds.extend(marker.position);
 
         var markerKey = currLat + "," + currLong;
         markerObj[markerKey] = marker;
         google.maps.event.addListener(marker, 'click', (function (mark, infoContent) {
-        return function () {
-            infowindow.setContent(infoContent);
-            infowindow.open(map, mark);
-        }
+            return function () {
+                infowindow.setContent(infoContent);
+                infowindow.open(map, mark);
+            }
         })(marker, eventInfo));
     }
     map.fitBounds(bounds);
@@ -116,7 +115,7 @@ function displayGoogleMap() {
 
 // This will give you the latitude and longitude of the event associated with the
 // pin the user clicked on
-$(document).on("click", ".chat-pin-toggle", function (event){
+$(document).on("click", ".chat-pin-toggle", function (event) {
     var currLat = $(this).data("lat");
     var currLong = $(this).data("long");
     var currInfo = $(this).data("info");
@@ -165,8 +164,8 @@ $("#user-zip-submit").on("click", function () {
 
     var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
 
-        // var date = new Date(1526086800000);
-        // console.log(date.toString(date));
+    // var date = new Date(1526086800000);
+    // console.log(date.toString(date));
 
     //request api with ajax
     $.ajax({
@@ -199,7 +198,7 @@ $("#user-zip-submit").on("click", function () {
                 formattedDate = rawDate.toString(rawDate);
                 finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
                 // console.log(finalDateTime.format("MM/DD/YYYY HH:mm"));
-                
+
 
                 if (response[i].group_photo) {
                     imageValue = response[i].group_photo.photo_link;
@@ -234,8 +233,9 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
-        console.log("STARTING SORT")
+        // console.log("STARTING SORT")
         bubbleSortMeetUpList();
+        getWeather();
         // weatherCounter = 0;
         // weatherRecursion();
         // newsCounter = 0;
@@ -243,7 +243,7 @@ $("#user-zip-submit").on("click", function () {
         displayGoogleMap();
         // console.log("meetupList")
         // console.log(meetupList)
-        displayMeetups();
+
     });
     // push to html
     //create attributes for tag
@@ -259,17 +259,17 @@ function bubbleSortMeetUpList() {
     // console.log(meetupList)
     do {
         var shiftedObj = false;
-        for (var i=1; i<meetupList.length; i++){
+        for (var i = 1; i < meetupList.length; i++) {
 
-            if (meetupList[i].eventDate.diff(meetupList[i-1].eventDate) < 0) {
+            if (meetupList[i].eventDate.diff(meetupList[i - 1].eventDate) < 0) {
                 // console.log("iteration ", i)
                 // console.log(meetupList[i-1].eventDate.format("HH:mm MM/DD/YY"))
                 // console.log(meetupList[i].eventDate.format("HH:mm MM/DD/YY"))
                 // console.log(meetupList);
-                var tempObj = Object.assign({}, meetupList[i-1]);
+                var tempObj = Object.assign({}, meetupList[i - 1]);
                 var tempObj2 = Object.assign({}, meetupList[i])
                 meetupList[i] = tempObj;
-                meetupList[i-1] = tempObj2;
+                meetupList[i - 1] = tempObj2;
                 shiftedObj = true;
                 // console.log(meetupList);
             }
@@ -288,7 +288,7 @@ var activeEvent;
 
 function displayMeetups() {
     $("#event-content").empty();
-    if (!meetupList){
+    if (!meetupList) {
         return;
     }
     for (var i = 0; i < meetupList.length; i++) {
@@ -308,7 +308,7 @@ function displayMeetups() {
         eventCardHeaderName.text(currObj.eventName);
         var eventCardHeaderDate = $("<h6>");
         eventCardHeaderDate.addClass("text-right");
-        
+
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
         eventCardHeader.append(eventCardHeaderName);
@@ -317,8 +317,8 @@ function displayMeetups() {
 
         var eventCardBody = $("<div>");
         eventCardBody.addClass("card-body m-0 p-3 event-card-body");
-        
-        if (currObj.image){
+
+        if (currObj.image) {
             var eventCardImage = $("<img>");
             eventCardImage.attr("src", currObj.image);
             eventCardImage.attr("alt", currObj.eventName);
@@ -331,7 +331,7 @@ function displayMeetups() {
 
         var eventWeather = $("<h6>");
         eventTime.addClass("pl-2");
-        eventWeather.text("There will be weather.");
+        eventWeather.text(currObj.eventWeather);
 
         var eventDescrip = $("<p>");
         eventDescrip.addClass("pl-2 mt-3 event-card-content");
@@ -349,13 +349,13 @@ function displayMeetups() {
         moveMePin.addClass("chat-pin-toggle");
         moveMePin.attr("data-lat", currObj.lat);
         moveMePin.attr("data-long", currObj.long);
-        var eventInfo = 
-        "<a href = '" + currObj.eventURL + "' target='_blank'" + " alt='" + currObj.eventName + "'>" + "<h6>" + currObj.eventName + "</h6>" + "</a>" +
-        "<p>" + currObj.eventDate.format("h:mm a MM/DD") + "</p>";
+        var eventInfo =
+            "<a href = '" + currObj.eventURL + "' target='_blank'" + " alt='" + currObj.eventName + "'>" + "<h6>" + currObj.eventName + "</h6>" + "</a>" +
+            "<p>" + currObj.eventDate.format("h:mm a MM/DD") + "</p>";
         moveMePin.attr("data-info", eventInfo);
 
-        if (currObj.image){
-        eventCardBody.append(eventCardImage);
+        if (currObj.image) {
+            eventCardBody.append(eventCardImage);
         }
         eventCardBody.append(eventTime);
         eventCardBody.append(eventWeather);
@@ -372,11 +372,11 @@ function displayMeetups() {
     }
 }
 
-$(document).on("click", ".event-card-header", function(event) {
+$(document).on("click", ".event-card-header", function (event) {
     $(this).next().toggleClass("active-event-card-body")
 })
 
-$(document).on("click", ".event-card-body", function(event) {
+$(document).on("click", ".event-card-body", function (event) {
     if ($(event.target).is(".chat-pin-toggle")) {
         return;
     }
@@ -387,14 +387,14 @@ $(document).on("click", ".event-card-body", function(event) {
 // ========================================================
 
 var database = firebase.database();
-var userColor; 
+var userColor;
 
 function randInt(x) {
     return Math.floor(Math.random() * x);
 }
 
-$(document).on("click", "#chat-header", function(event) {
-    if (!userName){
+$(document).on("click", "#chat-header", function (event) {
+    if (!userName) {
         $("#chat-name").toggleClass("hidden");
     } else {
         $("#chat-name").addClass("hidden");
@@ -406,7 +406,7 @@ $(document).on("click", "#chat-header", function(event) {
 })
 
 
-$(document).on("click", "#chat-name-submit", function(event){
+$(document).on("click", "#chat-name-submit", function (event) {
     event.preventDefault();
     userName = $("#chat-name-input").val().trim();
 
@@ -417,12 +417,12 @@ $(document).on("click", "#chat-name-submit", function(event){
         $("#chat-box").removeClass("hidden");
         $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
         $("html, body").scrollTop($(document).height());
-        database.ref("/chatUsers").once("value", function(snap){
+        database.ref("/chatUsers").once("value", function (snap) {
             if (snap.hasChild(userName)) {
                 userColor = snap.val()[userName];
             } else {
                 var tempRand = randInt(200);
-                userColor = "rgba(" + (50+ tempRand) + ", " + randInt(150) + ", " + (250-tempRand) + ", 1);";
+                userColor = "rgba(" + (50 + tempRand) + ", " + randInt(150) + ", " + (250 - tempRand) + ", 1);";
                 var userObject = {};
                 userObject[userName] = userColor;
                 database.ref("/chatUsers").update(userObject);
@@ -432,7 +432,7 @@ $(document).on("click", "#chat-name-submit", function(event){
     }
 })
 
-$(document).on("click", "#chat-submit", function(event){
+$(document).on("click", "#chat-submit", function (event) {
     event.preventDefault();
     var chatItem = {};
     var time = moment().format("HH:mm MM/DD/YY")
@@ -478,16 +478,16 @@ database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
 })
 
-database.ref("/chat").on("value", function (snapshot){
+database.ref("/chat").on("value", function (snapshot) {
     var snap = snapshot.val();
-    if (snap){
+    if (snap) {
         var maxChatStorage = 30;
         var chatObj = snapshot.val();
         var currDate;
         var tempKeys = Object.keys(snapshot.val());
-        for (var i=0; i<tempKeys.length; i++) {
+        for (var i = 0; i < tempKeys.length; i++) {
             var tempDate = moment(snap[tempKeys[i]].time, "HH:mm MM/DD/YY");
-            if (parseInt(moment().diff(tempDate, "days")) > maxChatStorage){
+            if (parseInt(moment().diff(tempDate, "days")) > maxChatStorage) {
                 database.ref("/chat").child(tempKeys[i]).remove();
             }
         }
@@ -498,92 +498,86 @@ database.ref("/chat").on("value", function (snapshot){
 //                   Weather API
 // ========================================================
 
-// var outCounter = 0;
-// weather Variables
-
-// var lat = meetupList[0].lat;
-// // console.log(lat)
-// var long = meetupList[0].long;
-// var eventDate = meetupList[0].eventDate;
-// var weatherDate = eventDate.unix();{
-//     console.log(weatherDate);
-       
-// }  
 
 
-// var weatherLoc = lat + "," +  long + "," + weatherDate + "?/"
-var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/37.8267,-122.4233,1526162017?/"
-// var weatherURL = "https://api.darksky.net/forecast/2f32ba83031454d3113997b8783167aa/" + weatherLoc
-    
-//Weather Data points
-var summary; 
-var high;
-var low; 
-var wind;
-var weatherIcon;
-// function weatherRecursion () {
-//     if (outCounter < meetupList.length){
-//         var currObj = meetupList[outCounter];
-      //  request weather with ajax through proxy 
-jQuery.ajaxPrefilter(function (options) {
-if (options.crossDomain && jQuery.support.cors) {
-options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-}
-});
-$.ajax({
-url: weatherURL,
-method: "GET"
-}).then(function (response) 
-{
-    console.log(response);
-    
+var lat;;
+// console.log(lat)
+var long;
+var eventDate;
+var weatherDate;
+// console.log(weatherDate);
 
-var summary = response.hourly.summary;
-var weatherIcon =response.hourly.icon
-weatherList = [summary, weatherIcon];
-console.log(weatherList)
+function getWeather() {
+ 
+    // lat = meetupList[i].lat;
+    // console.log(lat)
+    // long = meetupList[i].long;
+    // eventDate = meetupList[i].eventDate;
+    // weatherDate = eventDate.unix();
+    // console.log(weatherDate);
+    //         // console.log(weatherDate);
+    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&zip=" + userZip + ",us&16&appid=166a433c57516f51dfab1f7edaed8413"
+    console.log(weatherURL);
+    console.log(meetupList);
+    //Weather Data points
+    var summary;
+    var high;
+    var low;
+    var wind;
+    var weatherIcon;
 
-// for (var i = 0; i < response.length; i++)
-// {
-// // console.log(response[i]);
-// var tempWeather = {};
+    jQuery.ajaxPrefilter(function (options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+        }
+    });
+    $.ajax({
+        url: weatherURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        var forecastList = response.list;
+        weatherDate = moment.unix(1526374800).format("MMM Do YYYY");
+        console.log(forecastList);
+        weatherList =[]
 
-// if (response[i].daily) 
-//   {
+        for (var i =0; i <meetupList.length; i++){
+            var currObj = meetupList[i];
+            var eventTime = parseInt(currObj.eventDate.unix())
+            var weatherTime;
+            var weatherEntry; 
+            var counter = 0;
+            do {
+                if (counter < forecastList.length){
+                weatherTime = parseInt(forecastList[counter].dt);
+                weatherEntry = "It will be " + forecastList[counter].main.temp + "°F with " + 
+                    forecastList[counter].weather[0].description;
+                counter++;
+                } else {
+                    weatherTime = eventTime + 1;
+                    weatherEntry = "&nbsp;";
+                }              
+            } while ( weatherTime < eventTime);
+            meetupList[i].eventWeather = weatherEntry;
+        }
+        console.log("weeeeeeeeeeee!!!!!");
+        console.log(meetupList);
+        displayMeetups();
+
+        // summary = response.hourly.summary;
+        // weatherIcon = response.hourly.icon
+        // weatherList = [summary, weatherIcon];
+        // console.log(weatherList);
         
-// //store in object weatherList array
-// tempWeather["Summary"] = summary;
-// tempWeather["High"] = high;
-// tempWeather["Low"] = low;
-// tempWeather["Wind"] = wind;
-// tempWeather["Icon"] = weatherIcon;
+    });
 
-
-// //push object to array
-// weatherList.push(tempWeather);
-});
+    
 
 
 
 
-
-
-
-
-
-//         {
-//             var tempWeather; //grab the weather from the response
-//             meetupList[outCounter].weather = tempWeather;
-//             outCounter++;
-//             weatherRecursion();
-//         })
-//     } else {
-//         displayMeetups();
-//     }
-// }
-
-// for (var outCounter=0; outCounter < meetupList.length; outCounter++){
-
+//end of function
+}
 
     // WAIT FOR THE AJAX TO FINISH BEFORE MOVING ON
 // }
