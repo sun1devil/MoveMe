@@ -332,7 +332,7 @@ function displayMeetups() {
 
         var eventWeather = $("<h6>");
         eventTime.addClass("pl-2");
-        eventWeather.text(currObj.eventWeather);
+        eventWeather.html(currObj.eventWeather);
 
         var eventDescrip = $("<p>");
         eventDescrip.addClass("pl-2 mt-3 event-card-content");
