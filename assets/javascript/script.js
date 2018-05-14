@@ -144,7 +144,8 @@ $("#user-zip-submit").on("click", function () {
     //declare variables
     userZip = $("#user-zip").val().trim();
     $("#user-zip").val("");
-    $("#moveme-main-display").addClass("hidden")
+    $("#moveme-main-display").addClass("hidden");
+    $("#moveme-loading").removeClass("hidden");
     $("#moveme-body").removeClass("hidden");
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 10;
@@ -240,7 +241,8 @@ $("#user-zip-submit").on("click", function () {
         // weatherRecursion();
         // newsCounter = 0;
         // newsRecursion();
-        $("#moveme-main-display").removeClass("hidden")
+        $("#moveme-main-display").removeClass("hidden");
+        $("#moveme-loading").addClass("hidden");
         displayGoogleMap();
         // console.log("meetupList")
         // console.log(meetupList)
@@ -406,7 +408,6 @@ $(document).on("click", "#chat-header", function(event) {
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
     $("html, body").scrollTop($(document).height());
 })
-
 
 $(document).on("click", "#chat-name-submit", function(event){
     event.preventDefault();

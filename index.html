@@ -48,10 +48,15 @@
     </header>
 
     <main class="container-fluid hidden" id="moveme-body">
-        <div class="row" id="moveme-loading">
-            <div class="col"></div>
+        <div class="row p-5" id="moveme-loading">
+            <div class="col-1"></div>
+            <div class="col position-relative text-center">
+                <img class="" src="assets/images/loading.gif" alt="Loading Image" id="loading-gif">
+                <h2 class="mt-3" id="loading-message">Finding other Movers near you!</h2>
+            </div>
+            <div class="col-1"></div>
         </div>
-        <div class="row pt-5 hidden moveme-main-display">
+        <div class="row pt-5 hidden" id="moveme-main-display">
             <div class="col-12 col-md-7 col-lg-8" id="event-display">
                 <div class="card">
                     <h3 class="card-header event-display-header text-light">Upcoming Events Near You</h3>
