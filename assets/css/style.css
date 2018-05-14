@@ -1,6 +1,43 @@
+body{
+    overflow-x:hidden;
+    background-image: url("../images/flag-background.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: 100px;
+}
+
+#page-header {
+    background-color: #fff;
+    border-bottom: solid;
+    border-bottom-color: #ca0202;
+    border-bottom-width: 7px;
+}
+
+#moveme-logo {
+    height: 220px;
+}
+
+.move-style {
+    color: #00239b;
+    font-weight: bold;
+}
+
+.me-style {
+    color: #ca0202;
+    font-style: italic;
+}
+
+#moveme-body {
+    background-color: rgba(200, 200, 200, .9);
+}
+
 #google-map {
     height: 658px;
     width: 100%;
+}
+
+.event-display-header, #chat-header {
+    background-color: #ca0202;
 }
 
 #event-content {
@@ -8,15 +45,22 @@
     overflow-y: scroll;
 }
 
-#chat-display {
-    height: 300px;
-    overflow-y: scroll;
+.event-card-header {
+    background-color: #00239b;
 }
 
-#chat-name-box {
-    width: 250px;
-    margin-left: auto;
-    margin-right: auto;
+.event-card-body {
+    height: 200px;
+    overflow-y: hidden;
+}
+
+.active-event-card-body {
+    height: 400px !important;
+    overflow-y: scroll !important;
+}
+
+.hidden {
+    display:none;
 }
 
 .event-card-image {
@@ -35,48 +79,17 @@
     right: 17px;
 }
 
-body{
-    overflow-x:hidden;
-    background-image: url("../images/flag-background.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position-y: 100px;
+#chat-display {
+    height: 300px;
+    overflow-y: scroll;
 }
 
-.hidden {
-    display:none;
+#chat-name-box {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.event-card-body {
-    height: 200px;
-    overflow-y: hidden;
-}
 
-.active-event-card-body {
-    height: 400px !important;
-    overflow-y: scroll !important;
 
-}
 
-.event-card-header {
-    background-color: #00239b;
-}
-
-.event-display-header, #chat-header {
-    background-color: #ca0202;
-}
-
-#page-header {
-    background-color: #fff;
-    border-bottom: solid;
-    border-bottom-color: #ca0202;
-    border-bottom-width: 7px;
-}
-
-#moveme-body {
-    background-color: rgba(200, 200, 200, .9);
-}
-
-#moveme-logo {
-    height: 200px;
-}
