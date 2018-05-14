@@ -234,6 +234,8 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
+        console.log("STARTING SORT")
+        bubbleSortMeetUpList();
         // weatherCounter = 0;
         // weatherRecursion();
         // newsCounter = 0;
@@ -252,6 +254,31 @@ $("#user-zip-submit").on("click", function () {
 
 });
 
+
+function bubbleSortMeetUpList() {
+    // console.log(meetupList)
+    do {
+        var shiftedObj = false;
+        for (var i=1; i<meetupList.length; i++){
+
+            if (meetupList[i].eventDate.diff(meetupList[i-1].eventDate) < 0) {
+                // console.log("iteration ", i)
+                // console.log(meetupList[i-1].eventDate.format("HH:mm MM/DD/YY"))
+                // console.log(meetupList[i].eventDate.format("HH:mm MM/DD/YY"))
+                // console.log(meetupList);
+                var tempObj = Object.assign({}, meetupList[i-1]);
+                var tempObj2 = Object.assign({}, meetupList[i])
+                meetupList[i] = tempObj;
+                meetupList[i-1] = tempObj2;
+                shiftedObj = true;
+                // console.log(meetupList);
+            }
+
+        }
+    } while (shiftedObj);
+    // console.log("COMPLETE")
+    // console.log(meetupList)
+}
 
 // ========================================================
 //                   Meetup Display (Dynamic)
