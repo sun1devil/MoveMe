@@ -304,6 +304,11 @@ function displayMeetups() {
         var eventCardHeader = $("<div>");
         eventCardHeader.addClass("card-header text-light event-card-header");
 
+        var eventCardIcon = $("<img>");
+        eventCardIcon.addClass("float-left event-card-icon");
+        eventCardIcon.attr("src", "assets/images/plusIcon.png");
+        eventCardIcon.attr("alt", "Toggle Content");
+
         var eventCardHeaderName = $("<h5>");
         eventCardHeaderName.addClass("float-left");
         eventCardHeaderName.text(currObj.eventName);
@@ -312,6 +317,7 @@ function displayMeetups() {
 
         eventCardHeaderDate.text(currObj.eventDate.format("MM/DD/YYYY"));
 
+        eventCardHeader.append(eventCardIcon);
         eventCardHeader.append(eventCardHeaderName);
         eventCardHeader.append(eventCardHeaderDate);
         eventCard.append(eventCardHeader);
@@ -374,6 +380,12 @@ function displayMeetups() {
 }
 
 $(document).on("click", ".event-card-header", function (event) {
+
+    if ($(".event-card-icon", this).attr("src") === "assets/images/plusIcon.png"){
+        $(".event-card-icon", this).attr("src","assets/images/minusIcon.png");
+    } else {
+        $(".event-card-icon", this).attr("src","assets/images/plusIcon.png");
+    }
     $(this).next().toggleClass("active-event-card-body")
 })
 
@@ -381,6 +393,7 @@ $(document).on("click", ".event-card-body", function (event) {
     if ($(event.target).is(".chat-pin-toggle")) {
         return;
     }
+    $(this).prev().find(".event-card-icon").attr("src","assets/images/minusIcon.png");
     $(this).addClass("active-event-card-body")
 })
 // ========================================================
