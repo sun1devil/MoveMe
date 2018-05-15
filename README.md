@@ -3,7 +3,7 @@ MoveMe was created to provide people easy access to find and join political or c
 
 ## Getting Started
 
-Open up the [project link](https://github.com/sun1devil/MoveMe) and you should be able to see the example webpage shown below:
+Open up the [project link](https://sun1devil.github.io/MoveMe/) and you should be able to see the example webpage shown below:
 
 ![Homepage](assets/images/Homepage.PNG) "MoveMe Homepage")
 ![Upcoming Events](assets/images/upcoming-events.PNG "MoveMe Upcoming Events Results")
