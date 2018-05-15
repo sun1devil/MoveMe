@@ -172,7 +172,7 @@ function displayMeetups() {
         var currObj = meetupList[i];
 
         var eventWrapper = $("<div>");
-        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative");
+        eventWrapper.addClass("mt-4 pr-4 event-wrapper position-relative animated bounceInLeft");
 
         var eventCard = $("<div>");
         eventCard.addClass("card col p-0 m-2 position-relative");
@@ -227,7 +227,7 @@ function displayMeetups() {
         var moveMePin = $("<img>");
         moveMePin.attr("src", "assets/images/MoveMePin.jpg");
         moveMePin.attr("alt", "Map Pin Toggle");
-        moveMePin.addClass("chat-pin-toggle");
+        moveMePin.addClass("chat-pin-toggle animated bounce");
         moveMePin.attr("data-lat", currObj.lat);
         moveMePin.attr("data-long", currObj.long);
         var eventInfo =
@@ -257,6 +257,9 @@ $(document).on("click", ".event-card-header", function (event) {
 
     if ($(".event-card-icon", this).attr("src") === "assets/images/plusIcon.png"){
         $(".event-card-icon", this).attr("src","assets/images/minusIcon.png");
+        $(this).next().removeClass("animated fadeInDown");
+        void this.offsetWidth;
+        $(this).next().addClass("animated fadeInDown");
     } else {
         $(".event-card-icon", this).attr("src","assets/images/plusIcon.png");
     }
