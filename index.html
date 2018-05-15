@@ -13,6 +13,12 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Cinzel|Nunito|Overlock+SC" rel="stylesheet">
 
+    <!-- Animate CSS -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"
+    integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw"
+    crossorigin="anonymous">
+
     <!-- My CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -64,7 +70,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-5 col-lg-4" id="map-display">
-                <div class="card">
+                <div class="card animated bounceInRight">
                     <div id="map"></div>
                     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNdGUu1zOd1rU5mHt9sTmLJqBZSD8jOfw&callback=initMap">
                     </script>
@@ -78,7 +84,7 @@
             <div class="col-12 col-lg-10">
                 <div class="card mt-5" id="chat-card">
                     <div class="card-header text-light text-center p-2" id="chat-header"><h4>MoveMe Chat</h4></div>
-                    <div class="card-text m-5" id="chat-name">
+                    <div class="card-text m-5 animated fadeInDown" id="chat-name">
                         <h3 class="text-center">Welcome to the <span class="move-style">Move</span><span class="me-style">Me</span> chat! Please select a user name.</h3>
                         <div class="row">
                             <div class="col-sm-0 col-lg"></div>
@@ -91,7 +97,7 @@
                             <div class="col-sm-0 col-lg"></div>
                         </div>
                     </div>
-                    <div class="card-text hidden" id="chat-display"></div>
+                    <div class="card-text hidden animated fadeInDown" id="chat-display"></div>
                     <form class="input-group hidden" id="chat-box">
                         <input class="form-control" id="chat-input" type=text>
                         <div class="input-group-append">

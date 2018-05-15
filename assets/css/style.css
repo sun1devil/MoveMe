@@ -113,6 +113,18 @@ body{
     right: 20px;
 }
 
+.chat-pin-toggle:hover {
+    animation-name: pulse;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.1) translateY(-10%);
+    }
+}
+
 #chat-display {
     height: 300px;
     overflow-y: scroll;
