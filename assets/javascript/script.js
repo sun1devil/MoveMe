@@ -34,8 +34,6 @@ database.ref("/zip").on("value", function (snap) {
     var zipObject = snap.val();
     if (zipObject.hasOwnProperty(userZip)) {
         $("#zip-count").text(zipObject[userZip] + " people have been moved near you!")
-    } else {
-        $("#zip-count").text("Come join us!")
     }
 })
 
@@ -98,58 +96,67 @@ jQuery.ajaxPrefilter(function (options) {
         options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
     }
 });
-
+function validateZip() {
+    var userInput = $("#user-zip").val().trim();
+    if ((userInput.length != 5) || !parseInt(userInput)){
+        $("#zip-count").text("Please enter a valid US Zip Code");
+        return false;
+    }
+    return true;
+}
 // user enters a zipcode
 $("#user-zip-submit").on("click", function () {
     event.preventDefault();
 
-    userZip = $("#user-zip").val().trim();
-    $("#user-zip").val("");
-    storeZip();
+    if (validateZip()) {
+        userZip = $("#user-zip").val().trim();
+        $("#user-zip").val("");
+        storeZip();
 
-    $("#moveme-main-display").addClass("hidden");
-    $("#moveme-loading").removeClass("hidden");
-    $("#moveme-body").removeClass("hidden");
+        $("#moveme-main-display").addClass("hidden");
+        $("#moveme-loading").removeClass("hidden");
+        $("#moveme-body").removeClass("hidden");
 
-    var apiKey = "5c377e757526c7c255f6c425f126e3";
-    var radius = 10;
-    var category = 13;
+        var apiKey = "5c377e757526c7c255f6c425f126e3";
+        var radius = 10;
+        var category = 13;
 
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true";
+        var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true";
 
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
-        meetupList = [];
-        for (var i = 0; i < response.length; i++) {
-            var temp = {};
-            if (response[i].next_event) {
-                var eventURL = response[i].link + "events/" + response[i].next_event.id
-                var rawDate = new Date(response[i].next_event.time);
-                var formattedDate = rawDate.toString(rawDate);
-                var finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
-                var imageValue;
-                if (response[i].group_photo) {
-                    imageValue = response[i].group_photo.photo_link;
-                };
-                temp["eventName"] = response[i].next_event.name;
-                temp["descrip"] = response[i].description;
-                temp["attending"] = response[i].next_event.yes_rsvp_count;
-                temp["image"] = imageValue;
-                temp["lat"] = response[i].lat;
-                temp["long"] = response[i].lon;
-                temp["eventDate"] = finalDateTime;
-                temp["eventURL"] = eventURL;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            meetupList = [];
+            for (var i = 0; i < response.length; i++) {
+                var temp = {};
+                if (response[i].next_event) {
+                    var eventURL = response[i].link + "events/" + response[i].next_event.id
+                    var rawDate = new Date(response[i].next_event.time);
+                    var formattedDate = rawDate.toString(rawDate);
+                    var finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                    var imageValue;
+                    if (response[i].group_photo) {
+                        imageValue = response[i].group_photo.photo_link;
+                    };
+                    temp["eventName"] = response[i].next_event.name;
+                    temp["descrip"] = response[i].description;
+                    temp["attending"] = response[i].next_event.yes_rsvp_count;
+                    temp["image"] = imageValue;
+                    temp["lat"] = response[i].lat;
+                    temp["long"] = response[i].lon;
+                    temp["eventDate"] = finalDateTime;
+                    temp["eventURL"] = eventURL;
 
-                meetupList.push(temp);
+                    meetupList.push(temp);
+                }
             }
-        }
-        meetupList.sort(function(a, b) {
-            return a.eventDate.diff(b.eventDate)
+            meetupList.sort(function(a, b) {
+                return a.eventDate.diff(b.eventDate)
+            });
+            getWeather();
         });
-        getWeather();
-    });
+    }
 });
 
 // ========================================================
