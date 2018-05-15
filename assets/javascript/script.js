@@ -12,16 +12,11 @@ var weatherCounter, newsCounter;
 
 var database = firebase.database();
 
-
 // ========================================================
-//                   John
+//                   Zip Code Firebase Storage
 // ========================================================
 
-
-//on click search capture zipcode count each//
-$("#user-zip-submit").on("click", function (event) {
-    event.preventDefault();
-    userZip = $("#user-zip").val().trim();
+function storeZip () {
     database.ref("/zip").once("value", function (snap) {
 
         var zipObject = snap.val();
@@ -33,8 +28,7 @@ $("#user-zip-submit").on("click", function (event) {
         }
         database.ref("/zip").update(zipObject)
     });
-})
-
+}
 
 database.ref("/zip").on("value", function (snap) {
     var zipObject = snap.val();
@@ -47,7 +41,7 @@ database.ref("/zip").on("value", function (snap) {
 
 
 // ========================================================
-//                   Mindy
+//                   Google Maps
 // ========================================================
 
 function displayGoogleMap() {
@@ -87,105 +81,73 @@ function displayGoogleMap() {
     map.fitBounds(bounds);
 }
 
-// This will give you the latitude and longitude of the event associated with the
-// pin the user clicked on
+// User clicking on the moveme pin in event display
 $(document).on("click", ".chat-pin-toggle", function (event) {
-    // We don't need these variables
-    var currLat = $(this).data("lat");
-    var currLong = $(this).data("long");
-    var currInfo = $(this).data("info");
-    var currMarker = markerObj[currLat + "," + currLong];
-    infowindow.setContent(currInfo);
+    var currMarker = markerObj[$(this).data("lat") + "," + $(this).data("long")];
+    infowindow.setContent($(this).data("info"));
     infowindow.open(map, currMarker);
 })
 
+// ========================================================
+//                   Meetup Ajax
+// ========================================================
 
-// ========================================================
-//                   Hannah
-// ========================================================
+//Add cors to our ajax call
 jQuery.ajaxPrefilter(function (options) {
     if (options.crossDomain && jQuery.support.cors) {
         options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
     }
 });
+
+// user enters a zipcode
 $("#user-zip-submit").on("click", function () {
     event.preventDefault();
+
     userZip = $("#user-zip").val().trim();
     $("#user-zip").val("");
+    storeZip();
 
     $("#moveme-main-display").addClass("hidden");
     $("#moveme-loading").removeClass("hidden");
     $("#moveme-body").removeClass("hidden");
 
-    //declare variables
-
     var apiKey = "5c377e757526c7c255f6c425f126e3";
     var radius = 10;
     var category = 13;
-    var dateToday;
-    var finalDateTime;
 
+    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true";
 
-// REFACTOR THIS PLS
-
-    var eventNameValue;
-    var descripValue;
-    var attendingValue;
-    var imageValue;
-    var longValue;
-    var latValue;
-    var eventDate;
-    var groupLink;
-    var linkNextEvent;
-    var eventURL;
-
-    var queryURL = "https://api.meetup.com/find/groups?" + "key=" + apiKey + "&zip=" + userZip + "&radius=" + radius + "&category=" + category + "&upcoming_events=true&start_date_range=" + dateToday;
-
-    //request api with ajax
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-
         meetupList = [];
         for (var i = 0; i < response.length; i++) {
             var temp = {};
             if (response[i].next_event) {
-                eventNameValue = response[i].next_event.name;
-                descripValue = response[i].description;
-                attendingValue = response[i].next_event.yes_rsvp_count;
-                eventDate = response[i].next_event.time;
-                groupLink = response[i].link;
-                linkNextEvent = response[i].next_event.id;
-                eventURL = groupLink + "events/" + linkNextEvent
-                var rawDate = new Date(eventDate);
-                formattedDate = rawDate.toString(rawDate);
-                finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                var eventURL = response[i].link + "events/" + response[i].next_event.id
+                var rawDate = new Date(response[i].next_event.time);
+                var formattedDate = rawDate.toString(rawDate);
+                var finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
                 if (response[i].group_photo) {
-                    imageValue = response[i].group_photo.photo_link;
+                    var imageValue = response[i].group_photo.photo_link;
                 };
-                longValue = response[i].lon;
-                latValue = response[i].lat;
-                temp["eventName"] = eventNameValue;
-                temp["descrip"] = descripValue;
-                temp["attending"] = attendingValue;
+                temp["eventName"] = response[i].next_event.name;
+                temp["descrip"] = response[i].description;
+                temp["attending"] = response[i].next_event.yes_rsvp_count;
                 temp["image"] = imageValue;
-                temp["lat"] = latValue;
-                temp["long"] = longValue;
+                temp["lat"] = response[i].lat;
+                temp["long"] = response[i].lon;
                 temp["eventDate"] = finalDateTime;
                 temp["eventURL"] = eventURL;
-                //push object to array
+
                 meetupList.push(temp);
             }
-
         }
-
         meetupList.sort(function(a, b) {
             return a.eventDate.diff(b.eventDate)
         });
         getWeather();
-        $("#moveme-main-display").removeClass("hidden");
-        $("#moveme-loading").addClass("hidden");
         displayGoogleMap();
     });
 });
@@ -193,8 +155,6 @@ $("#user-zip-submit").on("click", function () {
 // ========================================================
 //                   Meetup Display (Dynamic)
 // ========================================================
-
-var activeEvent;
 
 function displayMeetups() {
     $("#event-content").empty();
@@ -303,11 +263,10 @@ $(document).on("click", ".event-card-body", function (event) {
     $(this).prev().find(".event-card-icon").attr("src","assets/images/minusIcon.png");
     $(this).addClass("active-event-card-body")
 })
+
 // ========================================================
 //                   MoveMe Chat
 // ========================================================
-
-
 
 function randInt(x) {
     return Math.floor(Math.random() * x);
@@ -324,7 +283,6 @@ $(document).on("click", "#chat-header", function (event) {
     $("#chat-display").scrollTop($("#chat-display").prop("scrollHeight"));
     $("html, body").scrollTop($(document).height());
 })
-
 
 $(document).on("click", "#chat-name-submit", function (event) {
     event.preventDefault();
@@ -348,7 +306,6 @@ $(document).on("click", "#chat-name-submit", function (event) {
                 database.ref("/chatUsers").update(userObject);
             }
         })
-
     }
 })
 
@@ -417,20 +374,9 @@ database.ref("/chat").on("value", function (snapshot) {
 //                   Weather API
 // ========================================================
 
-// var lat;
-// var long;
-// var eventDate;
-// var weatherDate;
-
 function getWeather() {
  
     var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&zip=" + userZip + ",us&16&appid=166a433c57516f51dfab1f7edaed8413"
-    //Weather Data points
-    // var summary;
-    // var high;
-    // var low;
-    // var wind;
-    // var weatherIcon;
 
     jQuery.ajaxPrefilter(function (options) {
         if (options.crossDomain && jQuery.support.cors) {
@@ -442,10 +388,8 @@ function getWeather() {
         method: "GET"
     }).then(function (response) {
         var forecastList = response.list;
-        // weatherDate = moment.unix(1526374800).format("MMM Do YYYY");
-        // console.log(forecastList);
         weatherList =[]
-        for (var i =0; i <meetupList.length; i++){
+        for (var i = 0; i < meetupList.length; i++){
             var currObj = meetupList[i];
             var eventTime = parseInt(currObj.eventDate.unix())
             var weatherTime;
@@ -464,6 +408,8 @@ function getWeather() {
             } while ( weatherTime < eventTime);
             meetupList[i].eventWeather = weatherEntry;
         }
+        $("#moveme-main-display").removeClass("hidden");
+        $("#moveme-loading").addClass("hidden");
         displayMeetups();     
     });
 }
