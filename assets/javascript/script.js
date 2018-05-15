@@ -179,7 +179,10 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
-        quickSort(meetupList, 0, (meetupList.length - 1))
+
+        meetupList.sort(function(a, b) {
+            return a.eventDate.diff(b.eventDate)
+        });
         getWeather();
         $("#moveme-main-display").removeClass("hidden");
         $("#moveme-loading").addClass("hidden");
@@ -187,38 +190,6 @@ $("#user-zip-submit").on("click", function () {
     });
 });
 
-function quickSort (arr, start, end) {
-    if (start < end) {
-        var pivot = qsPartition(arr, start, end);
-        quickSort(arr, start, pivot-1);
-        quickSort(arr, pivot+1, end);
-    }
-}
-  
-function qsPartition (arr, start, end) {
-    var randPivot = start + Math.floor(Math.random() * (end - start + 1));
-    var tempObj = arr[start];
-    arr[start] = arr[randPivot];
-    arr[randPivot] = tempObj;
-  
-    var i = start + 1;
-    var pivotElem = arr[start];
-  
-    for (var j = start + 1; j <= end; j++){        
-        if (arr[j].eventDate.diff(arr[start].eventDate) < 0) {
-            tempObj = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tempObj;
-            i++;
-        }
-    }
-
-    tempObj = arr[start];
-    arr[start] = arr[i-1];
-    arr[i-1] = tempObj;
-
-    return i-1;
-  }
 // ========================================================
 //                   Meetup Display (Dynamic)
 // ========================================================
@@ -387,7 +358,7 @@ $(document).on("click", "#chat-submit", function (event) {
     var time = moment().format("HH:mm MM/DD/YY")
     chatItem.name = userName;
     chatItem.color = userColor;
-    chatItem.time = time;
+    chatItem.time = firebase.database.ServerValue.TIMESTAMP;
     chatItem.message = $("#chat-input").val().trim();
 
     $("#chat-input").val("");
@@ -396,10 +367,9 @@ $(document).on("click", "#chat-submit", function (event) {
 
 database.ref("/chat").on("child_added", function (childSnapshot, prevChildKey) {
 
-    var chatDate = moment(childSnapshot.val().time, "HH:mm MM/DD/YY")
-    var chatTime = moment(chatDate.format("MM/DD/YY"), "MM/DD/YY");
-    var chatTimeColor;
-    if (parseInt(moment().diff(chatTime, "days")) !== 0) {
+    var chatDate = moment.unix(childSnapshot.val().time / 1000)
+    var chatTime, chatTimeColor;
+    if (parseInt(moment().diff(chatDate, "days")) !== 0) {
         chatTime = chatDate.format("MMM Do");
         chatTimeColor = "font-style: italic; color: rgba(150, 150, 150, 1)";
     } else {
@@ -435,7 +405,7 @@ database.ref("/chat").on("value", function (snapshot) {
         var currDate;
         var tempKeys = Object.keys(snapshot.val());
         for (var i = 0; i < tempKeys.length; i++) {
-            var tempDate = moment(snap[tempKeys[i]].time, "HH:mm MM/DD/YY");
+            var tempDate = moment.unix(snap[tempKeys[i]].time / 1000);
             if (parseInt(moment().diff(tempDate, "days")) > maxChatStorage) {
                 database.ref("/chat").child(tempKeys[i]).remove();
             }
