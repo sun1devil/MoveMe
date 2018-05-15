@@ -16,6 +16,7 @@ body{
 
 #moveme-logo {
     height: 220px;
+    float: left;
 }
 
 .move-style {
@@ -109,7 +110,7 @@ body{
     height:75px;
     position: absolute;
     bottom: 0px;
-    right: 17px;
+    right: 4%;
 }
 
 #chat-display {
@@ -123,6 +124,14 @@ body{
     margin-right: auto;
 }
 
+@media (max-width: 575.98px){
+    #moveme-intro {
+        display: none;
+    }
 
-
-
+    #moveme-logo {
+        display: block;
+        float: none;
+        margin: 0 auto !important;
+    }
+}
