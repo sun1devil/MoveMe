@@ -11,6 +11,7 @@ body{
     border-bottom: solid;
     border-bottom-color: #ca0202;
     border-bottom-width: 7px;
+    font-family: 'Nunito', sans-serif;
 }
 
 #moveme-logo {
@@ -20,11 +21,13 @@ body{
 .move-style {
     color: #00239b;
     font-weight: bold;
+    font-family: 'Nunito', sans-serif;
 }
 
 .me-style {
     color: #ca0202;
     font-style: italic;
+    font-family: 'Nunito', sans-serif;
 }
 
 #moveme-loading {
@@ -32,7 +35,8 @@ body{
 }
 
 #loading-message{
-
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
 }
 
 #loading-gif {
@@ -53,6 +57,7 @@ body{
 
 .event-display-header, #chat-header {
     background-color: #ca0202;
+    font-family: 'Overlock SC', cursive;
 }
 
 #event-content {
@@ -62,10 +67,13 @@ body{
 
 .event-card-header {
     background-color: #00239b;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    font-size: 23px;
 }
 
 .event-card-icon {
-    height: 25px;
+    height: 23px;
     padding-right: 10px;
 }
 

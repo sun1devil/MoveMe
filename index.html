@@ -11,6 +11,7 @@
         crossorigin="anonymous">
 
     <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cinzel|Nunito|Overlock+SC" rel="stylesheet">
 
     <!-- My CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -34,7 +35,7 @@
                 <div class ="row mb-3">
                     <div class="col"></div>
                     <form class="input-group col-6">
-                        <input class="form-control" id="user-zip" type=text placeholder="Enter zipcode">
+                        <input class="form-control" id="user-zip" type="text" name="zip_code" pattern="[0-9]{5}" placeholder="Enter zipcode">
                         <div class="input-group-append">
                             <button class="btn btn-light input-group-text" id="user-zip-submit" type="submit"><span class="move-style">Move</span><span class="me-style">Me</span></button>
                         </div>
