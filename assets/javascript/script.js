@@ -129,8 +129,9 @@ $("#user-zip-submit").on("click", function () {
                 var rawDate = new Date(response[i].next_event.time);
                 var formattedDate = rawDate.toString(rawDate);
                 var finalDateTime = moment(formattedDate, "ddd MMM Do YYYY, h:mm a")
+                var imageValue;
                 if (response[i].group_photo) {
-                    var imageValue = response[i].group_photo.photo_link;
+                    imageValue = response[i].group_photo.photo_link;
                 };
                 temp["eventName"] = response[i].next_event.name;
                 temp["descrip"] = response[i].description;
@@ -378,11 +379,6 @@ function getWeather() {
     var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&zip=" + userZip + 
                         ",us&16&appid=166a433c57516f51dfab1f7edaed8413"
 
-    jQuery.ajaxPrefilter(function (options) {
-        if (options.crossDomain && jQuery.support.cors) {
-            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-        }
-    });
     $.ajax({
         url: weatherURL,
         method: "GET"
