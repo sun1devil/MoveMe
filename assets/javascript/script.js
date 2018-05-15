@@ -46,7 +46,7 @@ database.ref("/zip").on("value", function (snap) {
 
 function displayGoogleMap() {
     var bounds = new google.maps.LatLngBounds();
-    var meetUpLoc = { lat: 37.773972, lng: -122.431297 };
+    var meetUpLoc = { lat: meetupList[0].lat, lng: meetupList[0].long };
     infowindow = new google.maps.InfoWindow({});
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
@@ -148,7 +148,6 @@ $("#user-zip-submit").on("click", function () {
             return a.eventDate.diff(b.eventDate)
         });
         getWeather();
-        displayGoogleMap();
     });
 });
 
@@ -376,7 +375,8 @@ database.ref("/chat").on("value", function (snapshot) {
 
 function getWeather() {
  
-    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&zip=" + userZip + ",us&16&appid=166a433c57516f51dfab1f7edaed8413"
+    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&zip=" + userZip + 
+                        ",us&16&appid=166a433c57516f51dfab1f7edaed8413"
 
     jQuery.ajaxPrefilter(function (options) {
         if (options.crossDomain && jQuery.support.cors) {
@@ -410,6 +410,7 @@ function getWeather() {
         }
         $("#moveme-main-display").removeClass("hidden");
         $("#moveme-loading").addClass("hidden");
+        displayGoogleMap();
         displayMeetups();     
     });
 }
