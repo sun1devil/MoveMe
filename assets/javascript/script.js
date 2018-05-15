@@ -219,53 +219,46 @@ $("#user-zip-submit").on("click", function () {
             }
 
         }
-        bubbleSortMeetUpList();
+        quickSort(meetupList, 0, (meetupList.length - 1))
         getWeather();
-        // weatherCounter = 0;
-        // weatherRecursion();
-        // newsCounter = 0;
-        // newsRecursion();
         $("#moveme-main-display").removeClass("hidden");
         $("#moveme-loading").addClass("hidden");
         displayGoogleMap();
-        // console.log("meetupList")
-        // console.log(meetupList)
     });
-    // push to html
-    //create attributes for tag
-
-
-
-
-
 });
 
-
-function bubbleSortMeetUpList() {
-    // console.log(meetupList)
-    do {
-        var shiftedObj = false;
-        for (var i = 1; i < meetupList.length; i++) {
-
-            if (meetupList[i].eventDate.diff(meetupList[i - 1].eventDate) < 0) {
-                // console.log("iteration ", i)
-                // console.log(meetupList[i-1].eventDate.format("HH:mm MM/DD/YY"))
-                // console.log(meetupList[i].eventDate.format("HH:mm MM/DD/YY"))
-                // console.log(meetupList);
-                var tempObj = Object.assign({}, meetupList[i - 1]);
-                var tempObj2 = Object.assign({}, meetupList[i])
-                meetupList[i] = tempObj;
-                meetupList[i - 1] = tempObj2;
-                shiftedObj = true;
-                // console.log(meetupList);
-            }
-
-        }
-    } while (shiftedObj);
-    // console.log("COMPLETE")
-    // console.log(meetupList)
+function quickSort (arr, start, end) {
+    if (start < end) {
+        var pivot = qsPartition(arr, start, end);
+        quickSort(arr, start, pivot-1);
+        quickSort(arr, pivot+1, end);
+    }
 }
+  
+function qsPartition (arr, start, end) {
+    var randPivot = start + Math.floor(Math.random() * (end - start + 1));
+    var tempObj = arr[start];
+    arr[start] = arr[randPivot];
+    arr[randPivot] = tempObj;
+  
+    var i = start + 1;
+    var pivotElem = arr[start];
+  
+    for (var j = start + 1; j <= end; j++){        
+        if (arr[j].eventDate.diff(arr[start].eventDate) < 0) {
+            tempObj = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tempObj;
+            i++;
+        }
+    }
 
+    tempObj = arr[start];
+    arr[start] = arr[i-1];
+    arr[i-1] = tempObj;
+
+    return i-1;
+  }
 // ========================================================
 //                   Meetup Display (Dynamic)
 // ========================================================
@@ -333,8 +326,6 @@ function displayMeetups() {
         eventAttendees.addClass("text-right pr-2 mr-5 event-card-content");
         eventAttendees.text(currObj.attending + " other people are attending.");
 
-        //add news article stuff here?
-
         var moveMePin = $("<img>");
         moveMePin.attr("src", "assets/images/MoveMePin.jpg");
         moveMePin.attr("alt", "Map Pin Toggle");
@@ -360,7 +351,7 @@ function displayMeetups() {
         $("#event-content").append(eventWrapper);
 
         // makes all links open in a new tab
-        $("a").attr("target", "_blank");
+        $("a", ".event-card-content").attr("target", "_blank");
     }
 }
 
