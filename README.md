@@ -3,12 +3,10 @@ MoveMe was created to provide people easy access to find and join political or c
 
 ## Getting Started
 
-Open up the [project link](https://github.com/sun1devil/MoveMe) and you should be able to see the example webpage shown below:
+Open up the [project link](https://sun1devil.github.io/MoveMe/) and you should be able to see the example webpage shown below:
 
 ![Homepage](assets/images/Homepage.PNG) "MoveMe Homepage")
 ![Upcoming Events](assets/images/upcoming-events.PNG "MoveMe Upcoming Events Results")
-
-Enter your preferred user name and join others in the timeless game of Rock Paper Scissors. Once you're at the head of the queue, you'll gain access to the chat and face off against another player! See how many wins you can achieve and how many players you can defeat.
 
 ### Prerequisites
 
