@@ -266,6 +266,37 @@ function bubbleSortMeetUpList() {
     // console.log(meetupList)
 }
 
+
+function quickSort (arr, start, end) {
+    if (start < end) {
+      var pivot = qsPartition(arr, start, end);
+      quickSort(arr, start, pivot-1);
+      quickSort(arr, pivot+1, end);
+    }
+  }
+  
+  function qsPartition (arr, start, end) {
+    var randPivot = start + Math.floor(Math.random() * (end - start + 1));
+    var temp = arr[start];
+    arr[start] = arr[randPivot];
+    arr[randPivot] = temp;
+  
+    var i = start + 1;
+    var pivotElem = arr[start];
+  
+    for (var j = start + 1; j <= end; j++){
+      if (arr[j] < pivotElem) {
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        i++;
+      }
+    }
+    temp = arr[start];
+    arr[start] = arr[i-1];
+    arr[i-1] = temp;
+    return i-1;
+  }
 // ========================================================
 //                   Meetup Display (Dynamic)
 // ========================================================
