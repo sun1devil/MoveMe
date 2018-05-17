@@ -13,7 +13,7 @@ Open up the [project link](https://sun1devil.github.io/MoveMe/) and you should b
 
 Enter your zip code and join the MoveMe nation! See what people just like you are getting involved in in your local community. With every step forward, we stem the rising tide of apathy and take ownership of the future of our nation!
 
-![Upcoming Events](assets/images/upcoming-events.PNG "MoveMe Upcoming Events Results")
+![MoveMe](assets/images/MoveMe.gif "MoveMe Demo")
 
 ### Prerequisites
 
@@ -95,9 +95,17 @@ We wanted to give users a platform to socialize and plan meetups, so we designed
 
 Each chat message includes a unique color for the user along with a time-stamp. Messages from the current day show what time they were sent while messages that are older than one day only show the date they were sent and are greyed out to give more prominence to recent messages. When the user logs in, if they have never used our chat service before, we generate a color for them using a random number generator to give us a rgb color value. Then, upon the first time the user loads the chat or when a new chat message is created, we check each message to see if the message is recent. If it is, we display the time, otherwise, we display the date and grey it out. In order to minimize clutter, we delete older messages by checking whether a message is older than 30 days and delete it if it is.
 
+## Mobile Responsiveness
 
+![Mobile Responsiveness](assets/images/MobileResponsiveness.gif)
 
+Using Bootstrap and CSS, we worked to ensure mobile responsiveness in order for users to be able to utilize our app on the go and connect with other Movers from anywhere in the nation.
 
+## Future Features
+
+![Future Features](assets/images/FutureFeatures.png)
+
+In the future, we hope to incorporate features such as News APIs, Carpool APIs, user Logins so he or she can store events, event APIs from other event websites, weather icons and ability for users to create their own events
 
 ## Authors
 
