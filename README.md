@@ -103,7 +103,7 @@ Using Bootstrap and CSS, we worked to ensure mobile responsiveness in order for 
 
 ## Future Features
 
-![Future Features](assets/images/FutureFeatures.png)
+![Future Features](assets/images/FutureFeatures.PNG)
 
 In the future, we hope to incorporate features such as News APIs, Carpool APIs, user Logins so he or she can store events, event APIs from other event websites, weather icons and ability for users to create their own events
 
